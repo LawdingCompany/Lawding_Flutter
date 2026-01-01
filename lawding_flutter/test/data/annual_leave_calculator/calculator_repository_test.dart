@@ -143,7 +143,7 @@ void main() {
         hireDate: '2023-01-01',
         referenceDate: '2024-01-01',
         nonWorkingPeriods: [
-          const NonWorkingPeriod(
+          const NonWorkingPeriodDto(
             type: 1,
             startDate: '2023-06-01',
             endDate: '2023-08-31',
