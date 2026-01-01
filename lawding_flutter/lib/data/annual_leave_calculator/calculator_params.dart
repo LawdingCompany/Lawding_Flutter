@@ -2,7 +2,7 @@ class CalculatorCalculateParams {
   final int calculationType;
   final String hireDate;
   final String referenceDate;
-  final List<NonWorkingPeriod> nonWorkingPeriods;
+  final List<NonWorkingPeriodDto> nonWorkingPeriods;
   final List<String> companyHolidays;
 
   const CalculatorCalculateParams({
@@ -25,12 +25,12 @@ class CalculatorCalculateParams {
   }
 }
 
-class NonWorkingPeriod {
+class NonWorkingPeriodDto {
   final int type;
   final String startDate;
   final String endDate;
 
-  const NonWorkingPeriod({
+  const NonWorkingPeriodDto({
     required this.type,
     required this.startDate,
     required this.endDate,
