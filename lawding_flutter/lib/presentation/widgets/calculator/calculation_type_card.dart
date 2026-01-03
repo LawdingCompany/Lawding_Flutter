@@ -8,7 +8,7 @@ import '../common/card_container.dart';
 import '../common/custom_segmented_control.dart';
 import '../common/date_button.dart';
 import '../common/help_button.dart';
-import '../common/primary_button.dart';
+import '../common/submit_button.dart';
 
 class CalculationTypeCard extends StatefulWidget {
   final int selectedTypeIndex;
@@ -231,7 +231,7 @@ class _MonthPickerSheetState extends State<_MonthPickerSheet> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
-            child: PrimaryButton(
+            child: SubmitButton(
               text: '확인',
               onPressed: () {
                 widget.onMonthSelected(selectedMonth);

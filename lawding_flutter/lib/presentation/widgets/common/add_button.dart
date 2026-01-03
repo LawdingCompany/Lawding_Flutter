@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import '../../core/app_colors.dart';
 import '../../core/app_text_styles.dart';
 
-class ChevronButton extends StatelessWidget {
+class AddButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
 
-  const ChevronButton({
+  const AddButton({
     super.key,
     required this.text,
     required this.onTap,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/app_text_styles.dart';
 import '../common/badge_label.dart';
 import '../common/card_container.dart';
-import '../common/chevron_button.dart';
+import '../common/add_button.dart';
 import '../common/help_button.dart';
 import 'period_list_item.dart';
 
@@ -34,7 +34,7 @@ class PeriodListCard extends StatelessWidget {
               const SizedBox(width: 5),
               HelpButton(onTap: onHelpTap),
               const Spacer(),
-              ChevronButton(
+              AddButton(
                 text: '추가하기',
                 onTap: onAddTap,
               ),

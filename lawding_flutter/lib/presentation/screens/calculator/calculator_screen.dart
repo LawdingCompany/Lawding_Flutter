@@ -7,7 +7,7 @@ import '../../core/app_colors.dart';
 import '../../core/app_text_styles.dart';
 import '../../widgets/calculator/calculation_type_card.dart';
 import '../../widgets/calculator/period_list_card.dart';
-import '../../widgets/common/primary_button.dart';
+import '../../widgets/common/submit_button.dart';
 import '../../widgets/common/terms_agreement_text.dart';
 import 'calculator_view_model.dart';
 
@@ -117,7 +117,7 @@ class CalculatorScreen extends ConsumerWidget {
               },
             ),
             const SizedBox(height: 20),
-            PrimaryButton(
+            SubmitButton(
               text: '계산하기',
               isLoading: state.isLoading,
               onPressed: () async {
@@ -296,7 +296,7 @@ class _DatePickerSheetState extends State<_DatePickerSheet> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
-            child: PrimaryButton(
+            child: SubmitButton(
               text: '확인',
               onPressed: () {
                 final selectedDate = DateTime(

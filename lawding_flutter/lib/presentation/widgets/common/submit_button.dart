@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import '../../core/app_colors.dart';
 import '../../core/app_text_styles.dart';
 
-class PrimaryButton extends StatelessWidget {
+class SubmitButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final bool isLoading;
 
-  const PrimaryButton({
+  const SubmitButton({
     super.key,
     required this.text,
     this.onPressed,
