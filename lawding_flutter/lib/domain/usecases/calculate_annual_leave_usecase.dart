@@ -16,6 +16,7 @@ class CalculateAnnualLeaveUseCase {
     required CalculationType calculationType,
     required DateTime hireDate,
     required DateTime referenceDate,
+    String? fiscalYear,
     List<NonWorkingPeriod>? nonWorkingPeriods,
     List<DateTime>? companyHolidays,
   }) async {
@@ -34,6 +35,7 @@ class CalculateAnnualLeaveUseCase {
       calculationType: calculationType,
       hireDate: hireDate,
       referenceDate: referenceDate,
+      fiscalYear: fiscalYear,
       nonWorkingPeriods: nonWorkingPeriods ?? [],
       companyHolidays: companyHolidays ?? [],
     );

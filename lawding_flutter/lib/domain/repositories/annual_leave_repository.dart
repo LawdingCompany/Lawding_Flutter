@@ -22,6 +22,7 @@ abstract interface class AnnualLeaveRepository {
     required CalculationType calculationType,
     required DateTime hireDate,
     required DateTime referenceDate,
+    String? fiscalYear,
     required List<NonWorkingPeriod> nonWorkingPeriods,
     required List<DateTime> companyHolidays,
   });

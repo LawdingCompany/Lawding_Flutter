@@ -8,12 +8,28 @@ import 'calculator_response.dart';
 extension CalculatorResponseMapper on CalculatorResponse {
   AnnualLeave toDomain() {
     return AnnualLeave(
-      totalDays: totalAnnualLeaves,
-      usedDays: usedAnnualLeaves,
-      remainingDays: remainingAnnualLeaves,
       calculationId: calculationId,
+      calculationType: calculationType,
+      fiscalYear: fiscalYear,
       hireDate: DateTime.parse(hireDate),
       referenceDate: DateTime.parse(referenceDate),
+      nonWorkingPeriods: nonWorkingPeriod
+          ?.map((p) => NonWorkingPeriodEntity(
+                type: p.type,
+                startDate: DateTime.parse(p.startDate),
+                endDate: DateTime.parse(p.endDate),
+              ))
+          .toList(),
+      companyHolidays:
+          companyHolidays?.map((date) => DateTime.parse(date)).toList(),
+      leaveType: leaveType.value,
+      serviceYears: calculationDetail.serviceYears,
+      totalDays: calculationDetail.totalLeaveDays,
+      baseAnnualLeave: calculationDetail.baseAnnualLeave,
+      additionalLeave: calculationDetail.additionalLeave,
+      attendanceRate: calculationDetail.attendanceRate?.rate,
+      explanations: explanations,
+      nonWorkingExplanations: nonWorkingExplanations,
     );
   }
 }
@@ -23,6 +39,7 @@ extension AnnualLeaveCalculationMapper on CalculationType {
   CalculatorCalculateParams toParams({
     required DateTime hireDate,
     required DateTime referenceDate,
+    String? fiscalYear,
     required List<NonWorkingPeriod> nonWorkingPeriods,
     required List<DateTime> companyHolidays,
   }) {
@@ -30,6 +47,7 @@ extension AnnualLeaveCalculationMapper on CalculationType {
       calculationType: code,
       hireDate: _formatDate(hireDate),
       referenceDate: _formatDate(referenceDate),
+      fiscalYear: fiscalYear,
       nonWorkingPeriods: nonWorkingPeriods
           .map((period) => period.toDataModel())
           .toList(),
