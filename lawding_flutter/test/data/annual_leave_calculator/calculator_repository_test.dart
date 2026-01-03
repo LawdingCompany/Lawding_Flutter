@@ -34,14 +34,41 @@ void main() {
         companyHolidays: [],
       );
 
-      // Given: Mock 응답 데이터 설정
+      // Given: Mock 응답 데이터 설정 (새로운 API 응답 구조)
       final mockResponseData = {
-        'totalAnnualLeaves': 15,
-        'usedAnnualLeaves': 5,
-        'remainingAnnualLeaves': 10,
         'calculationId': 'calc-123',
+        'calculationType': 'STANDARD',
+        'fiscalYear': '2024',
         'hireDate': '2023-01-01',
         'referenceDate': '2024-01-01',
+        'nonWorkingPeriod': null,
+        'companyHolidays': null,
+        'leaveType': 'ANNUAL',
+        'calculationDetail': {
+          'accrualPeriod': {
+            'startDate': '2023-01-01',
+            'endDate': '2023-12-31',
+          },
+          'availablePeriod': {
+            'startDate': '2024-01-01',
+            'endDate': '2024-12-31',
+          },
+          'attendanceRate': {
+            'numerator': 365,
+            'denominator': 365,
+            'rate': 1.0,
+          },
+          'prescribedWorkingRatio': null,
+          'serviceYears': 1,
+          'totalLeaveDays': 15.0,
+          'baseAnnualLeave': 15,
+          'additionalLeave': 0,
+          'records': null,
+          'monthlyDetail': null,
+          'proratedDetail': null,
+        },
+        'explanations': ['1년 근속으로 기본 연차 15일이 발생했습니다.'],
+        'nonWorkingExplanations': null,
       };
 
       mockDioHelper.mockPost(
@@ -55,10 +82,11 @@ void main() {
 
       // Then: 올바른 CalculatorResponse 객체가 반환되는지 확인
       expect(result, isA<CalculatorResponse>());
-      expect(result.totalAnnualLeaves, 15);
-      expect(result.usedAnnualLeaves, 5);
-      expect(result.remainingAnnualLeaves, 10);
       expect(result.calculationId, 'calc-123');
+      expect(result.calculationType, 'STANDARD');
+      expect(result.leaveType, LeaveType.annual);
+      expect(result.calculationDetail.totalLeaveDays, 15.0);
+      expect(result.calculationDetail.serviceYears, 1);
       expect(result.hireDate, '2023-01-01');
       expect(result.referenceDate, '2024-01-01');
     });
@@ -154,12 +182,45 @@ void main() {
 
       // Given: Mock 응답 데이터
       final mockResponseData = {
-        'totalAnnualLeaves': 12,
-        'usedAnnualLeaves': 3,
-        'remainingAnnualLeaves': 9,
         'calculationId': 'calc-456',
+        'calculationType': 'STANDARD',
+        'fiscalYear': null,
         'hireDate': '2023-01-01',
         'referenceDate': '2024-01-01',
+        'nonWorkingPeriod': [
+          {
+            'type': 1,
+            'startDate': '2023-06-01',
+            'endDate': '2023-08-31',
+          }
+        ],
+        'companyHolidays': ['2023-12-25'],
+        'leaveType': 'ANNUAL',
+        'calculationDetail': {
+          'accrualPeriod': {
+            'startDate': '2023-01-01',
+            'endDate': '2023-12-31',
+          },
+          'availablePeriod': {
+            'startDate': '2024-01-01',
+            'endDate': '2024-12-31',
+          },
+          'attendanceRate': {
+            'numerator': 273,
+            'denominator': 365,
+            'rate': 0.748,
+          },
+          'prescribedWorkingRatio': null,
+          'serviceYears': 1,
+          'totalLeaveDays': 12.0,
+          'baseAnnualLeave': 12,
+          'additionalLeave': 0,
+          'records': null,
+          'monthlyDetail': null,
+          'proratedDetail': null,
+        },
+        'explanations': ['휴직 기간으로 인해 출근율이 적용되어 12일이 발생했습니다.'],
+        'nonWorkingExplanations': ['육아휴직: 2023-06-01 ~ 2023-08-31'],
       };
 
       mockDioHelper.mockPost(
@@ -172,8 +233,11 @@ void main() {
       final result = await repository.calculate(params);
 
       // Then: 올바른 응답이 반환되는지 확인
-      expect(result.totalAnnualLeaves, 12);
-      expect(result.remainingAnnualLeaves, 9);
+      expect(result.calculationDetail.totalLeaveDays, 12.0);
+      expect(result.nonWorkingPeriod, isNotNull);
+      expect(result.nonWorkingPeriod!.length, 1);
+      expect(result.companyHolidays, isNotNull);
+      expect(result.companyHolidays!.length, 1);
     });
   });
 }

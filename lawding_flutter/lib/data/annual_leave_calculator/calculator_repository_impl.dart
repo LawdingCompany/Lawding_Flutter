@@ -18,6 +18,7 @@ class AnnualLeaveRepositoryImpl implements AnnualLeaveRepository {
     required CalculationType calculationType,
     required DateTime hireDate,
     required DateTime referenceDate,
+    String? fiscalYear,
     required List<NonWorkingPeriod> nonWorkingPeriods,
     required List<DateTime> companyHolidays,
   }) async {
@@ -26,6 +27,7 @@ class AnnualLeaveRepositoryImpl implements AnnualLeaveRepository {
       final params = calculationType.toParams(
         hireDate: hireDate,
         referenceDate: referenceDate,
+        fiscalYear: fiscalYear,
         nonWorkingPeriods: nonWorkingPeriods,
         companyHolidays: companyHolidays,
       );

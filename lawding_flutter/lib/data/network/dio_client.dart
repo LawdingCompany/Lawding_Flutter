@@ -10,7 +10,7 @@ class DioClient {
   DioClient({
     required String baseUrl,
     String platform = 'ios',
-    bool isTestMode = false,
+    bool isTestMode = true,
     Dio? dio,
   }) : _dio = dio ??
             Dio(

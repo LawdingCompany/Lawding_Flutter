@@ -2,6 +2,7 @@ class CalculatorCalculateParams {
   final int calculationType;
   final String hireDate;
   final String referenceDate;
+  final String? fiscalYear; // 회계연도 (예: "2024")
   final List<NonWorkingPeriodDto> nonWorkingPeriods;
   final List<String> companyHolidays;
 
@@ -9,12 +10,13 @@ class CalculatorCalculateParams {
     required this.calculationType,
     required this.hireDate,
     required this.referenceDate,
+    this.fiscalYear,
     required this.nonWorkingPeriods,
     required this.companyHolidays,
   });
 
   Map<String, dynamic> toJson() {
-    return {
+    final json = {
       'calculationType': calculationType,
       'hireDate': hireDate,
       'referenceDate': referenceDate,
@@ -22,6 +24,13 @@ class CalculatorCalculateParams {
           nonWorkingPeriods.map((e) => e.toJson()).toList(),
       'companyHolidays': companyHolidays,
     };
+
+    // fiscalYear가 null이 아닐 때만 추가
+    if (fiscalYear != null) {
+      json['fiscalYear'] = fiscalYear!;
+    }
+
+    return json;
   }
 }
 

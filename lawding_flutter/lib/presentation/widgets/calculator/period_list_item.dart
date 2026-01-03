@@ -1,0 +1,54 @@
+import 'package:flutter/material.dart';
+import '../../core/app_colors.dart';
+import '../../core/app_text_styles.dart';
+
+class PeriodListItem extends StatelessWidget {
+  final String title;
+  final String duration;
+  final VoidCallback onDelete;
+
+  const PeriodListItem({
+    super.key,
+    required this.title,
+    required this.duration,
+    required this.onDelete,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: hex('#FBFBFB'),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: pretendard(weight: 700, size: 12)),
+                const SizedBox(height: 4),
+                Text(
+                  duration,
+                  style: pretendard(size: 12, weight: 500, color: hex('#999999')),
+                ),
+              ],
+            ),
+          ),
+          GestureDetector(
+            onTap: onDelete,
+            child: Container(
+              padding: const EdgeInsets.all(4),
+              child: Text(
+                '삭제',
+                style: pretendard(size: 12, weight: 700, color: hex('#DADADA')),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
