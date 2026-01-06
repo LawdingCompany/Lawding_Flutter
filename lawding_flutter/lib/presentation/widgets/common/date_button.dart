@@ -32,6 +32,7 @@ class DateButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Image.asset(
               'assets/icons/calendar.png',
@@ -40,9 +41,11 @@ class DateButton extends StatelessWidget {
               color: hasDate ? AppColors.primaryTextColor : hex('#CCCCCC'),
             ),
             const SizedBox(width: 8),
-            Expanded(
+            SizedBox(
+              width: 100,
               child: Text(
                 hasDate ? _formatDate(selectedDate!) : placeholder,
+                textAlign: TextAlign.center,
                 style: pretendard(weight: 500, size: 15).copyWith(
                   color: hasDate ? AppColors.primaryTextColor : hex('#CCCCCC'),
                 ),
