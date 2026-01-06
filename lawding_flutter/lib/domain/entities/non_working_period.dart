@@ -1,28 +1,7 @@
-/// 비근무 기간 타입
-enum NonWorkingPeriodType {
-  militaryService(1, '군복무'),
-  maternityLeave(2, '출산휴가'),
-  parentalLeave(3, '육아휴직'),
-  unpaidLeave(4, '무급휴직'),
-  other(99, '기타');
-
-  final int code;
-  final String displayName;
-
-  const NonWorkingPeriodType(this.code, this.displayName);
-
-  static NonWorkingPeriodType fromCode(int code) {
-    return values.firstWhere(
-      (type) => type.code == code,
-      orElse: () => NonWorkingPeriodType.other,
-    );
-  }
-}
-
 /// 비근무 기간 정보
 class NonWorkingPeriod {
-  /// 비근무 기간 타입
-  final NonWorkingPeriodType type;
+  /// 서버로 전송할 타입 코드 (1, 2, 3)
+  final int type;
 
   /// 시작일
   final DateTime startDate;
@@ -30,10 +9,14 @@ class NonWorkingPeriod {
   /// 종료일
   final DateTime endDate;
 
+  /// 사용자에게 표시할 이름 (선택한 NonWorkingType의 displayName)
+  final String displayName;
+
   const NonWorkingPeriod({
     required this.type,
     required this.startDate,
     required this.endDate,
+    required this.displayName,
   });
 
   /// 기간 (일수)
@@ -46,7 +29,7 @@ class NonWorkingPeriod {
 
   @override
   String toString() {
-    return 'NonWorkingPeriod(type: ${type.displayName}, duration: $durationInDays days)';
+    return 'NonWorkingPeriod(displayName: $displayName, type: $type, duration: $durationInDays days)';
   }
 
   @override
@@ -56,11 +39,12 @@ class NonWorkingPeriod {
     return other is NonWorkingPeriod &&
         other.type == type &&
         other.startDate == startDate &&
-        other.endDate == endDate;
+        other.endDate == endDate &&
+        other.displayName == displayName;
   }
 
   @override
   int get hashCode {
-    return Object.hash(type, startDate, endDate);
+    return Object.hash(type, startDate, endDate, displayName);
   }
 }

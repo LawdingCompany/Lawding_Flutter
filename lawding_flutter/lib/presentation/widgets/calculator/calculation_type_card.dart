@@ -106,17 +106,12 @@ class _CalculationTypeCardState extends State<CalculationTypeCard> {
   Widget _buildDateRow(String label, DateTime? date, VoidCallback onTap) {
     return Row(
       children: [
-        SizedBox(
-          width: 100,
-          child: Text(label, style: pretendard(weight: 500, size: 15)),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: DateButton(
-            placeholder: 'YYYY.MM.DD',
-            selectedDate: date,
-            onTap: onTap,
-          ),
+        Text(label, style: pretendard(weight: 700, size: 15)),
+        const Spacer(),
+        DateButton(
+          placeholder: 'YYYY.MM.DD',
+          selectedDate: date,
+          onTap: onTap,
         ),
       ],
     );
@@ -125,38 +120,36 @@ class _CalculationTypeCardState extends State<CalculationTypeCard> {
   Widget _buildMonthRow(String label, int month, VoidCallback onTap) {
     return Row(
       children: [
-        SizedBox(
-          width: 100,
-          child: Text(label, style: pretendard(weight: 500, size: 15)),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: GestureDetector(
-            onTap: onTap,
-            child: Container(
-              height: 44,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: hex('#FBFBFB'),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                children: [
-                  Image.asset(
-                    'assets/icons/calendar.png',
-                    width: 16,
-                    height: 16,
-                    color: AppColors.primaryTextColor,
+        Text(label, style: pretendard(weight: 700, size: 15)),
+        const Spacer(),
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            height: 44,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: hex('#FBFBFB'),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  'assets/icons/calendar.png',
+                  width: 16,
+                  height: 16,
+                  color: AppColors.primaryTextColor,
+                ),
+                const SizedBox(width: 8),
+                SizedBox(
+                  width: 144,
+                  child: Text(
+                    _getMonthDayText(month),
+                    textAlign: TextAlign.center,
+                    style: pretendard(weight: 500, size: 15, color: AppColors.primaryTextColor),
                   ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      _getMonthDayText(month),
-                      style: pretendard(weight: 500, size: 15, color: AppColors.primaryTextColor),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

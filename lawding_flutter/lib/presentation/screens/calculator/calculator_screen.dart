@@ -1,26 +1,21 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/app_colors.dart';
 import '../../core/app_text_styles.dart';
+import '../../core/date_formatter.dart';
+import '../../core/ui_helpers.dart';
 import '../../widgets/calculator/calculation_type_card.dart';
 import '../../widgets/calculator/period_list_card.dart';
+import '../../widgets/common/date_picker_sheet.dart';
 import '../../widgets/common/submit_button.dart';
 import '../../widgets/common/terms_agreement_text.dart';
+import '../company_holidays/company_holidays_add_screen.dart';
+import '../special_period/special_period_add_screen.dart';
 import 'calculator_view_model.dart';
 
 class CalculatorScreen extends ConsumerWidget {
   const CalculatorScreen({super.key});
-
-  String _formatDate(DateTime date) {
-    return '${date.year}.${date.month.toString().padLeft(2, '0')}.${date.day.toString().padLeft(2, '0')}';
-  }
-
-  String _formatPeriod(DateTime start, DateTime end) {
-    return '${_formatDate(start)} ~ ${_formatDate(end)} · ${end.difference(start).inDays + 1}일';
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -81,12 +76,30 @@ class CalculatorScreen extends ConsumerWidget {
               title: '특이 사항이 있는 기간',
               items: state.nonWorkingPeriods
                   .map((p) => PeriodItem(
-                        title: p.type.displayName,
-                        duration: _formatPeriod(p.startDate, p.endDate),
+                        title: p.displayName,
+                        duration: DateFormatter.toPeriodFormat(p.startDate, p.endDate),
                       ))
                   .toList(),
-              onAddTap: () {
-                // TODO: Navigate to add period screen
+              onAddTap: () async {
+                final canAddError = viewModel.canAddNonWorkingPeriod();
+                if (canAddError != null) {
+                  UiHelpers.showSnackBar(context, canAddError);
+                  return;
+                }
+
+                final result = await Navigator.push<Map<String, dynamic>>(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SpecialPeriodAddScreen(),
+                  ),
+                );
+
+                if (result != null && context.mounted) {
+                  final error = viewModel.addNonWorkingPeriodFromMap(result);
+                  if (error != null && context.mounted) {
+                    UiHelpers.showSnackBar(context, error);
+                  }
+                }
               },
               onDeleteItem: viewModel.removeNonWorkingPeriod,
               onHelpTap: () {
@@ -97,13 +110,31 @@ class CalculatorScreen extends ConsumerWidget {
             PeriodListCard(
               title: '공휴일 외 회사휴일',
               items: state.companyHolidays
-                  .map((date) => PeriodItem(
-                        title: '회사휴일',
-                        duration: _formatDate(date),
+                  .map((holiday) => PeriodItem(
+                        title: holiday.displayName,
+                        duration: DateFormatter.toDisplayFormat(holiday.date),
                       ))
                   .toList(),
-              onAddTap: () {
-                // TODO: Navigate to add holiday screen
+              onAddTap: () async {
+                final canAddError = viewModel.canAddCompanyHoliday();
+                if (canAddError != null) {
+                  UiHelpers.showSnackBar(context, canAddError);
+                  return;
+                }
+
+                final result = await Navigator.push<Map<String, dynamic>>(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CompanyHolidaysAddScreen(),
+                  ),
+                );
+
+                if (result != null && context.mounted) {
+                  final error = viewModel.addCompanyHolidayFromMap(result);
+                  if (error != null && context.mounted) {
+                    UiHelpers.showSnackBar(context, error);
+                  }
+                }
               },
               onDeleteItem: viewModel.removeCompanyHoliday,
               onHelpTap: () {
@@ -121,15 +152,20 @@ class CalculatorScreen extends ConsumerWidget {
               text: '계산하기',
               isLoading: state.isLoading,
               onPressed: () async {
+                final validationError = viewModel.validateCalculation();
+                if (validationError != null) {
+                  UiHelpers.showSnackBar(context, validationError);
+                  return;
+                }
+
                 await viewModel.calculate();
+
+                if (!context.mounted) return;
+
                 if (state.result != null) {
                   // TODO: Navigate to result screen
                 } else if (state.error != null) {
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(state.error!)),
-                    );
-                  }
+                  UiHelpers.showSnackBar(context, state.error!);
                 }
               },
             ),
@@ -144,172 +180,16 @@ class CalculatorScreen extends ConsumerWidget {
     DateTime? initialDate,
     Function(DateTime) onDateSelected,
   ) async {
-    final picked = await _showIOSStyleDatePicker(
-      context,
-      initialDate ?? DateTime.now(),
+    final picked = await showModalBottomSheet<DateTime>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => DatePickerSheet(
+        initialDate: initialDate ?? DateTime.now(),
+      ),
     );
 
     if (picked != null) {
       onDateSelected(picked);
     }
-  }
-
-  Future<DateTime?> _showIOSStyleDatePicker(
-    BuildContext context,
-    DateTime initialDate,
-  ) {
-    return showModalBottomSheet<DateTime>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => _DatePickerSheet(initialDate: initialDate),
-    );
-  }
-}
-
-class _DatePickerSheet extends StatefulWidget {
-  final DateTime initialDate;
-
-  const _DatePickerSheet({required this.initialDate});
-
-  @override
-  State<_DatePickerSheet> createState() => _DatePickerSheetState();
-}
-
-class _DatePickerSheetState extends State<_DatePickerSheet> {
-  late int selectedYear;
-  late int selectedMonth;
-  late int selectedDay;
-
-  final List<int> years = List.generate(56, (i) => 1980 + i); // 1980-2035
-  final List<int> months = List.generate(12, (i) => i + 1);
-
-  @override
-  void initState() {
-    super.initState();
-    selectedYear = widget.initialDate.year;
-    selectedMonth = widget.initialDate.month;
-    selectedDay = widget.initialDate.day;
-  }
-
-  List<int> get days {
-    final daysInMonth = DateTime(selectedYear, selectedMonth + 1, 0).day;
-    return List.generate(daysInMonth, (i) => i + 1);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 310,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      child: Column(
-        children: [
-          const SizedBox(height: 12),
-          Container(
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: hex('#E0E0E0'),
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          const SizedBox(height: 18),
-          Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                  child: CupertinoPicker(
-                    scrollController: FixedExtentScrollController(
-                      initialItem: years.indexOf(selectedYear),
-                    ),
-                    itemExtent: 40,
-                    onSelectedItemChanged: (index) {
-                      HapticFeedback.selectionClick();
-                      setState(() {
-                        selectedYear = years[index];
-                        if (selectedDay > days.length) {
-                          selectedDay = days.last;
-                        }
-                      });
-                    },
-                    children: years.map((year) {
-                      return Center(
-                        child: Text(
-                          '$year년',
-                          style: pretendard(weight: 500, size: 23),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                Expanded(
-                  child: CupertinoPicker(
-                    scrollController: FixedExtentScrollController(
-                      initialItem: selectedMonth - 1,
-                    ),
-                    itemExtent: 40,
-                    onSelectedItemChanged: (index) {
-                      HapticFeedback.selectionClick();
-                      setState(() {
-                        selectedMonth = months[index];
-                        if (selectedDay > days.length) {
-                          selectedDay = days.last;
-                        }
-                      });
-                    },
-                    children: months.map((month) {
-                      return Center(
-                        child: Text(
-                          '$month월',
-                          style: pretendard(weight: 500, size: 23),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                Expanded(
-                  child: CupertinoPicker(
-                    scrollController: FixedExtentScrollController(
-                      initialItem: selectedDay - 1,
-                    ),
-                    itemExtent: 40,
-                    onSelectedItemChanged: (index) {
-                      HapticFeedback.selectionClick();
-                      setState(() {
-                        selectedDay = days[index];
-                      });
-                    },
-                    children: days.map((day) {
-                      return Center(
-                        child: Text(
-                          '$day일',
-                          style: pretendard(weight: 500, size: 23),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
-            child: SubmitButton(
-              text: '확인',
-              onPressed: () {
-                final selectedDate = DateTime(
-                  selectedYear,
-                  selectedMonth,
-                  selectedDay,
-                );
-                Navigator.pop(context, selectedDate);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
