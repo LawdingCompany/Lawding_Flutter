@@ -1,12 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../../../domain/entities/non_working_type.dart';
 import '../../core/app_colors.dart';
 import '../../core/app_text_styles.dart';
+import '../../core/date_formatter.dart';
 import '../../widgets/common/badge_label.dart';
 import '../../widgets/common/card_container.dart';
 import '../../widgets/common/date_button.dart';
+import '../../widgets/common/date_picker_sheet.dart';
 import '../../widgets/common/dropdown_button.dart';
 import '../../widgets/common/help_button.dart';
 import '../../widgets/common/submit_button.dart';
@@ -31,7 +31,7 @@ class _SpecialPeriodAddScreenState extends State<SpecialPeriodAddScreen> {
     final picked = await showModalBottomSheet<DateTime>(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (context) => _DatePickerSheet(
+      builder: (context) => DatePickerSheet(
         initialDate: currentDate ?? DateTime.now(),
       ),
     );
@@ -47,27 +47,18 @@ class _SpecialPeriodAddScreenState extends State<SpecialPeriodAddScreen> {
     }
   }
 
-  String _formatDateToString(DateTime date) {
-    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
-  }
-
   void _handleAddPeriod() {
     if (selectedType == null || startDate == null || endDate == null) {
-      // TODO: Show error message
-      print('❌ 모든 필드를 채워주세요');
       return;
     }
 
     final data = {
       'type': selectedType!.serverCode,
-      'startDate': _formatDateToString(startDate!),
-      'endDate': _formatDateToString(endDate!),
+      'startDate': DateFormatter.toApiFormat(startDate!),
+      'endDate': DateFormatter.toApiFormat(endDate!),
       'displayName': selectedType!.displayName,
     };
 
-    print('✅ 데이터 전송: $data');
-
-    // Return data to previous screen
     Navigator.pop(context, data);
   }
 
@@ -184,129 +175,6 @@ class _SpecialPeriodAddScreenState extends State<SpecialPeriodAddScreen> {
           onTap: () => _showDatePicker(context, isStartDate),
         ),
       ],
-    );
-  }
-}
-
-class _DatePickerSheet extends StatefulWidget {
-  final DateTime initialDate;
-
-  const _DatePickerSheet({required this.initialDate});
-
-  @override
-  State<_DatePickerSheet> createState() => _DatePickerSheetState();
-}
-
-class _DatePickerSheetState extends State<_DatePickerSheet> {
-  late int selectedYear;
-  late int selectedMonth;
-  late int selectedDay;
-
-  final List<int> years = List.generate(56, (i) => 1980 + i); // 1980-2035
-  final List<int> months = List.generate(12, (i) => i + 1);
-
-  @override
-  void initState() {
-    super.initState();
-    selectedYear = widget.initialDate.year;
-    selectedMonth = widget.initialDate.month;
-    selectedDay = widget.initialDate.day;
-  }
-
-  List<int> get days {
-    final daysInMonth = DateTime(selectedYear, selectedMonth + 1, 0).day;
-    return List.generate(daysInMonth, (i) => i + 1);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 310,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      child: Column(
-        children: [
-          const SizedBox(height: 12),
-          Container(
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: hex('#E0E0E0'),
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          const SizedBox(height: 18),
-          Expanded(
-            child: Row(
-              children: [
-                _buildPicker(years, selectedYear, (value) {
-                  HapticFeedback.selectionClick();
-                  setState(() {
-                    selectedYear = value;
-                    if (selectedDay > days.length) {
-                      selectedDay = days.length;
-                    }
-                  });
-                }, '년'),
-                _buildPicker(months, selectedMonth, (value) {
-                  HapticFeedback.selectionClick();
-                  setState(() {
-                    selectedMonth = value;
-                    if (selectedDay > days.length) {
-                      selectedDay = days.length;
-                    }
-                  });
-                }, '월'),
-                _buildPicker(days, selectedDay, (value) {
-                  HapticFeedback.selectionClick();
-                  setState(() {
-                    selectedDay = value;
-                  });
-                }, '일'),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
-            child: SubmitButton(
-              text: '확인',
-              onPressed: () {
-                Navigator.pop(
-                  context,
-                  DateTime(selectedYear, selectedMonth, selectedDay),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPicker(
-    List<int> items,
-    int selectedValue,
-    ValueChanged<int> onChanged,
-    String suffix,
-  ) {
-    return Expanded(
-      child: CupertinoPicker(
-        scrollController: FixedExtentScrollController(
-          initialItem: items.indexOf(selectedValue),
-        ),
-        itemExtent: 40,
-        onSelectedItemChanged: (index) => onChanged(items[index]),
-        children: items.map((item) {
-          return Center(
-            child: Text(
-              '$item$suffix',
-              style: pretendard(weight: 500, size: 23),
-            ),
-          );
-        }).toList(),
-      ),
     );
   }
 }
