@@ -42,7 +42,7 @@ class DateButton extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             SizedBox(
-              width: 100,
+              width: 144,
               child: Text(
                 hasDate ? _formatDate(selectedDate!) : placeholder,
                 textAlign: TextAlign.center,
