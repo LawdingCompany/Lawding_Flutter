@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../data/network/network_error.dart';
 import '../../../domain/core/result.dart';
 import '../../../domain/entities/annual_leave.dart';
+import '../../../domain/entities/company_holiday.dart';
 import '../../../domain/entities/non_working_period.dart';
 import '../../../domain/repositories/annual_leave_repository.dart';
 import '../../providers/providers.dart';
@@ -35,6 +36,48 @@ class CalculatorViewModel extends _$CalculatorViewModel {
     state = state.copyWith(fiscalYearStartMonth: month);
   }
 
+  /// 특이사항 추가 가능 여부 검증
+  String? canAddNonWorkingPeriod() {
+    // 1. 최대 3개 제한
+    if (state.nonWorkingPeriods.length >= 3) {
+      return '특이 사항은 최대 3개까지 추가할 수 있습니다.';
+    }
+    return null;
+  }
+
+  /// 특이사항 기간 검증
+  String? validateNonWorkingPeriod({
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
+    // 4. 시작일이 종료일보다 이후인지 검증
+    if (startDate.isAfter(endDate)) {
+      return '시작일은 종료일보다 이전이어야 합니다.';
+    }
+
+    // 3. 특이사항이 산정방식 기간 내에 포함되는지 검증
+    final hireDate = state.hireDate;
+    final referenceDate = state.referenceDate;
+
+    if (hireDate != null && referenceDate != null) {
+      if (startDate.isBefore(hireDate) || endDate.isAfter(referenceDate)) {
+        return '특이 사항은 입사일과 계산 기준일 사이에 있어야 합니다.';
+      }
+    }
+
+    // 5. 기존 특이사항과 기간이 겹치는지 검증
+    for (final existingPeriod in state.nonWorkingPeriods) {
+      // 새로운 기간이 기존 기간과 겹치는지 확인
+      // 겹치는 조건: (새 시작일 <= 기존 종료일) AND (새 종료일 >= 기존 시작일)
+      if (startDate.isBefore(existingPeriod.endDate.add(const Duration(days: 1))) &&
+          endDate.isAfter(existingPeriod.startDate.subtract(const Duration(days: 1)))) {
+        return '특이 사항 기간이 기존 기간(${existingPeriod.displayName})과 겹칩니다.';
+      }
+    }
+
+    return null;
+  }
+
   void addNonWorkingPeriod(NonWorkingPeriod period) {
     final updated = [...state.nonWorkingPeriods, period];
     state = state.copyWith(nonWorkingPeriods: updated);
@@ -46,13 +89,39 @@ class CalculatorViewModel extends _$CalculatorViewModel {
     state = state.copyWith(nonWorkingPeriods: updated);
   }
 
-  void addCompanyHoliday(DateTime date) {
-    final updated = [...state.companyHolidays, date];
+  /// 회사휴일 추가 가능 여부 검증
+  String? canAddCompanyHoliday() {
+    // 1. 최대 3개 제한
+    if (state.companyHolidays.length >= 3) {
+      return '회사휴일은 최대 3개까지 추가할 수 있습니다.';
+    }
+    return null;
+  }
+
+  /// 회사휴일 날짜 검증
+  String? validateCompanyHoliday({
+    required DateTime date,
+  }) {
+    // 2. 회사휴일이 입사일과 계산 기준일 사이에 포함되는지 검증
+    final hireDate = state.hireDate;
+    final referenceDate = state.referenceDate;
+
+    if (hireDate != null && referenceDate != null) {
+      if (date.isBefore(hireDate) || date.isAfter(referenceDate)) {
+        return '회사휴일은 입사일과 계산 기준일 사이에 있어야 합니다.';
+      }
+    }
+
+    return null;
+  }
+
+  void addCompanyHoliday(CompanyHoliday holiday) {
+    final updated = [...state.companyHolidays, holiday];
     state = state.copyWith(companyHolidays: updated);
   }
 
   void removeCompanyHoliday(int index) {
-    final updated = List<DateTime>.from(state.companyHolidays)..removeAt(index);
+    final updated = List<CompanyHoliday>.from(state.companyHolidays)..removeAt(index);
     state = state.copyWith(companyHolidays: updated);
   }
 
@@ -64,6 +133,39 @@ class CalculatorViewModel extends _$CalculatorViewModel {
     return '${month.toString().padLeft(2, '0')}-01';
   }
 
+  /// 계산하기 검증
+  String? validateCalculation() {
+    // 필수사항 검증
+    if (state.hireDate == null) {
+      return '입사일을 선택해주세요.';
+    }
+
+    if (state.referenceDate == null) {
+      return '계산 기준일을 선택해주세요.';
+    }
+
+    // 2. 입사일이 계산 기준일보다 이후인지 검증
+    if (state.hireDate!.isAfter(state.referenceDate!)) {
+      return '입사일은 계산 기준일보다 이전이어야 합니다.';
+    }
+
+    // 3. 계산 기준일은 2017년 5월 30일 이후여야 함
+    final minReferenceDate = DateTime(2017, 5, 30);
+    if (state.referenceDate!.isBefore(minReferenceDate)) {
+      return '계산 기준일은 2017년 5월 30일 이후여야 합니다.';
+    }
+
+    // 1. 특이사항이 입사일과 계산 기준일 사이에 포함되는지 검증
+    for (final period in state.nonWorkingPeriods) {
+      if (period.startDate.isBefore(state.hireDate!) ||
+          period.endDate.isAfter(state.referenceDate!)) {
+        return '특이 사항은 입사일과 계산 기준일 사이에 있어야 합니다.';
+      }
+    }
+
+    return null;
+  }
+
   Future<void> calculate() async {
     final hireDate = state.hireDate;
     final referenceDate = state.referenceDate;
@@ -71,6 +173,14 @@ class CalculatorViewModel extends _$CalculatorViewModel {
     if (hireDate == null || referenceDate == null) {
       state = state.copyWith(
         error: '입사일과 계산 기준일을 모두 선택해주세요.',
+      );
+      return;
+    }
+
+    // 입사일 > 계산 기준일 검증
+    if (hireDate.isAfter(referenceDate)) {
+      state = state.copyWith(
+        error: '입사일은 계산 기준일보다 이전이어야 합니다.',
       );
       return;
     }
@@ -101,7 +211,7 @@ class CalculatorViewModel extends _$CalculatorViewModel {
         final period = state.nonWorkingPeriods[i];
         final isLast = i == state.nonWorkingPeriods.length - 1;
         print('    {');
-        print('      "type": ${period.type.code},');
+        print('      "type": ${period.type},');
         print('      "startDate": "${_formatDate(period.startDate)}",');
         print('      "endDate": "${_formatDate(period.endDate)}"');
         print('    }${isLast ? '' : ','}');
@@ -115,7 +225,7 @@ class CalculatorViewModel extends _$CalculatorViewModel {
       print('  "companyHolidays": [');
       for (var i = 0; i < state.companyHolidays.length; i++) {
         final isLast = i == state.companyHolidays.length - 1;
-        print('    "${_formatDate(state.companyHolidays[i])}"${isLast ? '' : ','}');
+        print('    "${_formatDate(state.companyHolidays[i].date)}"${isLast ? '' : ','}');
       }
       print('  ]');
     }
@@ -132,7 +242,7 @@ class CalculatorViewModel extends _$CalculatorViewModel {
       referenceDate: referenceDate,
       fiscalYear: fiscalYear,
       nonWorkingPeriods: state.nonWorkingPeriods,
-      companyHolidays: state.companyHolidays,
+      companyHolidays: state.companyHolidays.map((h) => h.date).toList(),
     );
 
     switch (result) {
@@ -182,7 +292,7 @@ class CalculatorState {
   final DateTime? referenceDate;
   final int fiscalYearStartMonth; // 회계연도 시작 월 (1-12)
   final List<NonWorkingPeriod> nonWorkingPeriods;
-  final List<DateTime> companyHolidays;
+  final List<CompanyHoliday> companyHolidays;
   final bool isLoading;
   final AnnualLeave? result;
   final String? error;
@@ -192,12 +302,13 @@ class CalculatorState {
     this.hireDate,
     this.referenceDate,
     this.fiscalYearStartMonth = 1, // 기본값 1월
-    this.nonWorkingPeriods = const [],
-    this.companyHolidays = const [],
+    List<NonWorkingPeriod>? nonWorkingPeriods,
+    List<CompanyHoliday>? companyHolidays,
     this.isLoading = false,
     this.result,
     this.error,
-  });
+  })  : nonWorkingPeriods = nonWorkingPeriods ?? [],
+        companyHolidays = companyHolidays ?? [];
 
   CalculatorState copyWith({
     CalculationType? calculationType,
@@ -205,7 +316,7 @@ class CalculatorState {
     DateTime? referenceDate,
     int? fiscalYearStartMonth,
     List<NonWorkingPeriod>? nonWorkingPeriods,
-    List<DateTime>? companyHolidays,
+    List<CompanyHoliday>? companyHolidays,
     bool? isLoading,
     AnnualLeave? result,
     String? error,

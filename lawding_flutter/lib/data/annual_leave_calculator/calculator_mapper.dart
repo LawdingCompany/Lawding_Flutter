@@ -64,7 +64,7 @@ extension AnnualLeaveCalculationMapper on CalculationType {
 extension NonWorkingPeriodMapper on NonWorkingPeriod {
   NonWorkingPeriodDto toDataModel() {
     return NonWorkingPeriodDto(
-      type: type.code,
+      type: type,
       startDate: _formatDate(startDate),
       endDate: _formatDate(endDate),
     );
