@@ -142,7 +142,7 @@ class _CalculationTypeCardState extends State<CalculationTypeCard> {
                 ),
                 const SizedBox(width: 8),
                 SizedBox(
-                  width: 100,
+                  width: 144,
                   child: Text(
                     _getMonthDayText(month),
                     textAlign: TextAlign.center,

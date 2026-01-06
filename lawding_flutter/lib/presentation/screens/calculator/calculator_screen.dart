@@ -9,6 +9,10 @@ import '../../widgets/calculator/calculation_type_card.dart';
 import '../../widgets/calculator/period_list_card.dart';
 import '../../widgets/common/submit_button.dart';
 import '../../widgets/common/terms_agreement_text.dart';
+import '../../../domain/entities/company_holiday.dart';
+import '../../../domain/entities/non_working_period.dart';
+import '../special_period/special_period_add_screen.dart';
+import '../company_holidays/company_holidays_add_screen.dart';
 import 'calculator_view_model.dart';
 
 class CalculatorScreen extends ConsumerWidget {
@@ -81,12 +85,79 @@ class CalculatorScreen extends ConsumerWidget {
               title: '특이 사항이 있는 기간',
               items: state.nonWorkingPeriods
                   .map((p) => PeriodItem(
-                        title: p.type.displayName,
+                        title: p.displayName,
                         duration: _formatPeriod(p.startDate, p.endDate),
                       ))
                   .toList(),
-              onAddTap: () {
-                // TODO: Navigate to add period screen
+              onAddTap: () async {
+                // ViewModel에서 추가 가능 여부 검증
+                final canAddError = viewModel.canAddNonWorkingPeriod();
+                if (canAddError != null) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(canAddError),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                  return;
+                }
+
+                final result = await Navigator.push<Map<String, dynamic>>(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SpecialPeriodAddScreen(),
+                  ),
+                );
+
+                if (result != null) {
+                  print('📥 받은 데이터: $result');
+
+                  try {
+                    // Parse dates from string format
+                    final startDate = DateTime.parse(result['startDate'] as String);
+                    final endDate = DateTime.parse(result['endDate'] as String);
+                    final type = result['type'] as int;
+                    final displayName = result['displayName'] as String;
+
+                    // ViewModel에서 기간 검증
+                    final validationError = viewModel.validateNonWorkingPeriod(
+                      startDate: startDate,
+                      endDate: endDate,
+                    );
+
+                    if (validationError != null) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(validationError),
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
+                      }
+                      return;
+                    }
+
+                    // Create NonWorkingPeriod object
+                    final period = NonWorkingPeriod(
+                      type: type,
+                      startDate: startDate,
+                      endDate: endDate,
+                      displayName: displayName,
+                    );
+
+                    print('✅ NonWorkingPeriod 생성: ${period.toString()}');
+                    print('   - 표시될 이름: $displayName');
+                    print('   - type: $type');
+
+                    // Add to state
+                    viewModel.addNonWorkingPeriod(period);
+                    print('🎉 특이사항 추가 완료!');
+                  } catch (e) {
+                    print('❌ 데이터 처리 중 오류: $e');
+                  }
+                }
               },
               onDeleteItem: viewModel.removeNonWorkingPeriod,
               onHelpTap: () {
@@ -97,13 +168,73 @@ class CalculatorScreen extends ConsumerWidget {
             PeriodListCard(
               title: '공휴일 외 회사휴일',
               items: state.companyHolidays
-                  .map((date) => PeriodItem(
-                        title: '회사휴일',
-                        duration: _formatDate(date),
+                  .map((holiday) => PeriodItem(
+                        title: holiday.displayName,
+                        duration: _formatDate(holiday.date),
                       ))
                   .toList(),
-              onAddTap: () {
-                // TODO: Navigate to add holiday screen
+              onAddTap: () async {
+                // ViewModel에서 추가 가능 여부 검증
+                final canAddError = viewModel.canAddCompanyHoliday();
+                if (canAddError != null) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(canAddError),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                  return;
+                }
+
+                final result = await Navigator.push<Map<String, dynamic>>(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CompanyHolidaysAddScreen(),
+                  ),
+                );
+
+                if (result != null) {
+                  print('📥 받은 회사휴일 데이터: $result');
+
+                  try {
+                    // Parse date from string format
+                    final date = DateTime.parse(result['date'] as String);
+                    final displayName = result['displayName'] as String;
+
+                    // ViewModel에서 날짜 검증
+                    final validationError = viewModel.validateCompanyHoliday(
+                      date: date,
+                    );
+
+                    if (validationError != null) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(validationError),
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
+                      }
+                      return;
+                    }
+
+                    // Create CompanyHoliday object
+                    final holiday = CompanyHoliday(
+                      date: date,
+                      displayName: displayName,
+                    );
+
+                    print('✅ 회사휴일 추가: ${_formatDate(date)} ($displayName)');
+
+                    // Add to state
+                    viewModel.addCompanyHoliday(holiday);
+                    print('🎉 회사휴일 추가 완료!');
+                  } catch (e) {
+                    print('❌ 데이터 처리 중 오류: $e');
+                  }
+                }
               },
               onDeleteItem: viewModel.removeCompanyHoliday,
               onHelpTap: () {
@@ -121,6 +252,20 @@ class CalculatorScreen extends ConsumerWidget {
               text: '계산하기',
               isLoading: state.isLoading,
               onPressed: () async {
+                // ViewModel에서 검증
+                final validationError = viewModel.validateCalculation();
+                if (validationError != null) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(validationError),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                  return;
+                }
+
                 await viewModel.calculate();
                 if (state.result != null) {
                   // TODO: Navigate to result screen
