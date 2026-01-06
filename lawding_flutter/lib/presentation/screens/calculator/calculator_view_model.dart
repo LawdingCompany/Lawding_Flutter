@@ -6,6 +6,7 @@ import '../../../domain/entities/annual_leave.dart';
 import '../../../domain/entities/company_holiday.dart';
 import '../../../domain/entities/non_working_period.dart';
 import '../../../domain/repositories/annual_leave_repository.dart';
+import '../../core/date_formatter.dart';
 import '../../providers/providers.dart';
 
 part 'calculator_view_model.g.dart';
@@ -78,9 +79,39 @@ class CalculatorViewModel extends _$CalculatorViewModel {
     return null;
   }
 
-  void addNonWorkingPeriod(NonWorkingPeriod period) {
-    final updated = [...state.nonWorkingPeriods, period];
-    state = state.copyWith(nonWorkingPeriods: updated);
+  /// 특이사항 추가 (파싱 및 검증 포함)
+  String? addNonWorkingPeriodFromMap(Map<String, dynamic> data) {
+    try {
+      final startDate = DateTime.parse(data['startDate'] as String);
+      final endDate = DateTime.parse(data['endDate'] as String);
+      final type = data['type'] as int;
+      final displayName = data['displayName'] as String;
+
+      // 검증
+      final validationError = validateNonWorkingPeriod(
+        startDate: startDate,
+        endDate: endDate,
+      );
+
+      if (validationError != null) {
+        return validationError;
+      }
+
+      // 객체 생성 및 추가
+      final period = NonWorkingPeriod(
+        type: type,
+        startDate: startDate,
+        endDate: endDate,
+        displayName: displayName,
+      );
+
+      final updated = [...state.nonWorkingPeriods, period];
+      state = state.copyWith(nonWorkingPeriods: updated);
+
+      return null;
+    } catch (e) {
+      return '데이터 처리 중 오류가 발생했습니다.';
+    }
   }
 
   void removeNonWorkingPeriod(int index) {
@@ -115,9 +146,32 @@ class CalculatorViewModel extends _$CalculatorViewModel {
     return null;
   }
 
-  void addCompanyHoliday(CompanyHoliday holiday) {
-    final updated = [...state.companyHolidays, holiday];
-    state = state.copyWith(companyHolidays: updated);
+  /// 회사휴일 추가 (파싱 및 검증 포함)
+  String? addCompanyHolidayFromMap(Map<String, dynamic> data) {
+    try {
+      final date = DateTime.parse(data['date'] as String);
+      final displayName = data['displayName'] as String;
+
+      // 검증
+      final validationError = validateCompanyHoliday(date: date);
+
+      if (validationError != null) {
+        return validationError;
+      }
+
+      // 객체 생성 및 추가
+      final holiday = CompanyHoliday(
+        date: date,
+        displayName: displayName,
+      );
+
+      final updated = [...state.companyHolidays, holiday];
+      state = state.copyWith(companyHolidays: updated);
+
+      return null;
+    } catch (e) {
+      return '데이터 처리 중 오류가 발생했습니다.';
+    }
   }
 
   void removeCompanyHoliday(int index) {
@@ -125,13 +179,6 @@ class CalculatorViewModel extends _$CalculatorViewModel {
     state = state.copyWith(companyHolidays: updated);
   }
 
-  String _formatDate(DateTime date) {
-    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
-  }
-
-  String _formatMonthDay(int month) {
-    return '${month.toString().padLeft(2, '0')}-01';
-  }
 
   /// 계산하기 검증
   String? validateCalculation() {
@@ -187,51 +234,8 @@ class CalculatorViewModel extends _$CalculatorViewModel {
 
     // fiscalYear 계산
     final fiscalYear = state.calculationType == CalculationType.proRated
-        ? _formatMonthDay(state.fiscalYearStartMonth)
+        ? DateFormatter.toMonthDayFormat(state.fiscalYearStartMonth)
         : null;
-
-    // === API 요청 파라미터 출력 (JSON 형태) ===
-    print('');
-    print('╔════════════════════════════════════════════════════════════╗');
-    print('║               API Request Parameters                       ║');
-    print('╚════════════════════════════════════════════════════════════╝');
-    print('{');
-    print('  "calculationType": ${state.calculationType.code},');
-    if (fiscalYear != null) {
-      print('  "fiscalYear": "$fiscalYear",');
-    }
-    print('  "hireDate": "${_formatDate(hireDate)}",');
-    print('  "referenceDate": "${_formatDate(referenceDate)}",');
-
-    if (state.nonWorkingPeriods.isEmpty) {
-      print('  "nonWorkingPeriods": [],');
-    } else {
-      print('  "nonWorkingPeriods": [');
-      for (var i = 0; i < state.nonWorkingPeriods.length; i++) {
-        final period = state.nonWorkingPeriods[i];
-        final isLast = i == state.nonWorkingPeriods.length - 1;
-        print('    {');
-        print('      "type": ${period.type},');
-        print('      "startDate": "${_formatDate(period.startDate)}",');
-        print('      "endDate": "${_formatDate(period.endDate)}"');
-        print('    }${isLast ? '' : ','}');
-      }
-      print('  ],');
-    }
-
-    if (state.companyHolidays.isEmpty) {
-      print('  "companyHolidays": []');
-    } else {
-      print('  "companyHolidays": [');
-      for (var i = 0; i < state.companyHolidays.length; i++) {
-        final isLast = i == state.companyHolidays.length - 1;
-        print('    "${_formatDate(state.companyHolidays[i].date)}"${isLast ? '' : ','}');
-      }
-      print('  ]');
-    }
-    print('}');
-    print('════════════════════════════════════════════════════════════');
-    print('');
 
     state = state.copyWith(isLoading: true, error: null);
 
@@ -247,26 +251,11 @@ class CalculatorViewModel extends _$CalculatorViewModel {
 
     switch (result) {
       case Success(:final value):
-        print('=== API 응답 성공 ===');
-        print('계산 ID: ${value.calculationId}');
-        print('계산 방식: ${value.calculationType}');
-        print('연차 유형: ${value.leaveType}');
-        print('총 연차 개수: ${value.totalDays}일');
-        print('근속 연수: ${value.serviceYears}년');
-        print('출근율: ${value.attendanceRate != null ? "${value.attendanceRate}%" : "N/A"}');
-        print('기본 연차: ${value.baseAnnualLeave ?? "N/A"}');
-        print('가산 연차: ${value.additionalLeave ?? "N/A"}');
-        print('설명: ${value.explanations.join(", ")}');
-        print('==================');
-
         state = state.copyWith(
           isLoading: false,
           result: value,
         );
       case Failure(:final error):
-        print('=== API 응답 실패 ===');
-        print('에러 타입: ${error.runtimeType}');
-
         final errorMessage = switch (error) {
           ServerError(:final message) => message,
           UnauthorizedError() => '인증이 필요합니다',
@@ -274,9 +263,6 @@ class CalculatorViewModel extends _$CalculatorViewModel {
           NetworkConnectionError() => '네트워크 연결을 확인해주세요',
           _ => '알 수 없는 오류가 발생했습니다',
         };
-
-        print('에러 메시지: $errorMessage');
-        print('==================');
 
         state = state.copyWith(
           isLoading: false,
