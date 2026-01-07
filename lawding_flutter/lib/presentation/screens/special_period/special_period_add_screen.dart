@@ -83,7 +83,7 @@ class _SpecialPeriodAddScreenState extends State<SpecialPeriodAddScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(width: 20),
-                  Icon(
+                  const Icon(
                     Icons.chevron_left,
                     size: 23,
                     color: AppColors.brandColor,

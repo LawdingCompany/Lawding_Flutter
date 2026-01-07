@@ -21,7 +21,7 @@ extension CalculatorResponseMapper on CalculatorResponse {
               ))
           .toList(),
       companyHolidays:
-          companyHolidays?.map((date) => DateTime.parse(date)).toList(),
+          companyHolidays?.map(DateTime.parse).toList(),
       leaveType: leaveType.value,
       serviceYears: calculationDetail.serviceYears,
       totalDays: calculationDetail.totalLeaveDays,

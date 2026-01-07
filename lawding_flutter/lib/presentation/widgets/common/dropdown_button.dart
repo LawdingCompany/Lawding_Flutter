@@ -87,11 +87,11 @@ class _CustomDropdownButtonState<T> extends State<CustomDropdownButton<T>>
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
-                            color: const Color(0x1A000000),
+                            color: Color(0x1A000000),
                             blurRadius: 10,
-                            offset: const Offset(0, 4),
+                            offset: Offset(0, 4),
                           ),
                         ],
                       ),

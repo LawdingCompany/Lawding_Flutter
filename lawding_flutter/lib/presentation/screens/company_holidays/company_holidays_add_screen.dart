@@ -73,7 +73,7 @@ class _CompanyHolidaysAddScreenState extends State<CompanyHolidaysAddScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(width: 20),
-                  Icon(
+                  const Icon(
                     Icons.chevron_left,
                     size: 23,
                     color: AppColors.brandColor,
