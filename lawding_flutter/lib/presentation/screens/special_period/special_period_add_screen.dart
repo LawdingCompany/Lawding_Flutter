@@ -10,6 +10,8 @@ import '../../widgets/common/date_picker_sheet.dart';
 import '../../widgets/common/dropdown_button.dart';
 import '../../widgets/common/help_button.dart';
 import '../../widgets/common/submit_button.dart';
+import '../../widgets/common/quick_help_sheet.dart';
+import '../../../domain/entities/help_content.dart';
 
 class SpecialPeriodAddScreen extends StatefulWidget {
   const SpecialPeriodAddScreen({super.key});
@@ -118,7 +120,10 @@ class _SpecialPeriodAddScreenState extends State<SpecialPeriodAddScreen> {
                       Text('특이 사항이 있는 기간', style: pretendard(weight: 700, size: 20)),
                       const SizedBox(width: 8),
                       HelpButton(onTap: () {
-                        // TODO: Show help dialog
+                        QuickHelpSheet.show(
+                  context,
+                  kind: QuickHelpKind.detailPeriods,
+                );
                       }),
                     ],
                   ),

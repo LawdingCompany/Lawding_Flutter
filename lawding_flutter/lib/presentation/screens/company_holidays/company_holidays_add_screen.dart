@@ -10,6 +10,8 @@ import '../../widgets/common/date_picker_sheet.dart';
 import '../../widgets/common/dropdown_button.dart';
 import '../../widgets/common/help_button.dart';
 import '../../widgets/common/submit_button.dart';
+import '../../widgets/common/quick_help_sheet.dart';
+import '../../../domain/entities/help_content.dart';
 
 class CompanyHolidaysAddScreen extends StatefulWidget {
   const CompanyHolidaysAddScreen({super.key});
@@ -109,7 +111,10 @@ class _CompanyHolidaysAddScreenState extends State<CompanyHolidaysAddScreen> {
                           style: pretendard(weight: 700, size: 20)),
                       const SizedBox(width: 8),
                       HelpButton(onTap: () {
-                        // TODO: Show help dialog
+                        QuickHelpSheet.show(
+                  context,
+                  kind: QuickHelpKind.companyHolidays,
+                );
                       }),
                     ],
                   ),
