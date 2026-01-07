@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../../core/app_colors.dart';
 import '../../core/app_text_styles.dart';
 import '../common/badge_label.dart';
@@ -80,7 +81,11 @@ class _CalculationTypeCardState extends State<CalculationTypeCard> {
           const SizedBox(height: 12),
           _buildDateRow('입사일', widget.hireDate, widget.onHireDateTap),
           const SizedBox(height: 12),
-          _buildDateRow('계산 기준일', widget.referenceDate, widget.onReferenceDateTap),
+          _buildDateRow(
+            '계산 기준일',
+            widget.referenceDate,
+            widget.onReferenceDateTap,
+          ),
           // 회계연도 시작일 필드 (애니메이션)
           AnimatedSize(
             duration: const Duration(milliseconds: 300),
@@ -108,11 +113,7 @@ class _CalculationTypeCardState extends State<CalculationTypeCard> {
       children: [
         Text(label, style: pretendard(weight: 700, size: 15)),
         const Spacer(),
-        DateButton(
-          placeholder: 'YYYY.MM.DD',
-          selectedDate: date,
-          onTap: onTap,
-        ),
+        DateButton(placeholder: 'YYYY.MM.DD', selectedDate: date, onTap: onTap),
       ],
     );
   }
@@ -146,7 +147,11 @@ class _CalculationTypeCardState extends State<CalculationTypeCard> {
                   child: Text(
                     _getMonthDayText(month),
                     textAlign: TextAlign.center,
-                    style: pretendard(weight: 500, size: 15, color: AppColors.primaryTextColor),
+                    style: pretendard(
+                      weight: 500,
+                      size: 15,
+                      color: AppColors.primaryTextColor,
+                    ),
                   ),
                 ),
               ],

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import '../../core/app_text_styles.dart';
+import '../common/add_button.dart';
 import '../common/badge_label.dart';
 import '../common/card_container.dart';
-import '../common/add_button.dart';
 import '../common/help_button.dart';
 import 'period_list_item.dart';
 
@@ -31,13 +32,10 @@ class PeriodListCard extends StatelessWidget {
           Row(
             children: [
               Text(title, style: pretendard(weight: 700, size: 20)),
-              const SizedBox(width: 5),
+              const SizedBox(width: 8),
               HelpButton(onTap: onHelpTap),
               const Spacer(),
-              AddButton(
-                text: '추가하기',
-                onTap: onAddTap,
-              ),
+              AddButton(text: '추가하기', onTap: onAddTap),
             ],
           ),
           const SizedBox(height: 3),
@@ -66,8 +64,5 @@ class PeriodItem {
   final String title;
   final String duration;
 
-  const PeriodItem({
-    required this.title,
-    required this.duration,
-  });
+  const PeriodItem({required this.title, required this.duration});
 }
