@@ -26,7 +26,7 @@ void main() {
 
     test('연차 계산 성공 - 정상적인 응답을 받으면 CalculatorResponse를 반환한다', () async {
       // Given: 테스트용 파라미터 준비
-      final params = CalculatorCalculateParams(
+      const params = CalculatorCalculateParams(
         calculationType: 1,
         hireDate: '2023-01-01',
         referenceDate: '2024-01-01',
@@ -93,7 +93,7 @@ void main() {
 
     test('연차 계산 실패 - 서버 에러 시 ServerError를 던진다', () async {
       // Given: 테스트용 파라미터 준비
-      final params = CalculatorCalculateParams(
+      const params = CalculatorCalculateParams(
         calculationType: 1,
         hireDate: '2023-01-01',
         referenceDate: '2024-01-01',
@@ -118,7 +118,7 @@ void main() {
 
     test('연차 계산 실패 - 401 에러 시 UnauthorizedError를 던진다', () async {
       // Given: 테스트용 파라미터 준비
-      final params = CalculatorCalculateParams(
+      const params = CalculatorCalculateParams(
         calculationType: 1,
         hireDate: '2023-01-01',
         referenceDate: '2024-01-01',
@@ -143,7 +143,7 @@ void main() {
 
     test('연차 계산 실패 - 타임아웃 시 TimeoutError를 던진다', () async {
       // Given: 테스트용 파라미터 준비
-      final params = CalculatorCalculateParams(
+      const params = CalculatorCalculateParams(
         calculationType: 1,
         hireDate: '2023-01-01',
         referenceDate: '2024-01-01',
@@ -166,12 +166,12 @@ void main() {
 
     test('연차 계산 성공 - 비근무 기간이 있는 경우', () async {
       // Given: 비근무 기간이 포함된 파라미터
-      final params = CalculatorCalculateParams(
+      const params = CalculatorCalculateParams(
         calculationType: 1,
         hireDate: '2023-01-01',
         referenceDate: '2024-01-01',
         nonWorkingPeriods: [
-          const NonWorkingPeriodDto(
+          NonWorkingPeriodDto(
             type: 1,
             startDate: '2023-06-01',
             endDate: '2023-08-31',

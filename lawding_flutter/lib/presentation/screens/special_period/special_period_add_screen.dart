@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../../domain/entities/help_content.dart';
 import '../../../domain/entities/non_working_type.dart';
 import '../../core/app_colors.dart';
 import '../../core/app_text_styles.dart';
@@ -9,6 +11,7 @@ import '../../widgets/common/date_button.dart';
 import '../../widgets/common/date_picker_sheet.dart';
 import '../../widgets/common/dropdown_button.dart';
 import '../../widgets/common/help_button.dart';
+import '../../widgets/common/quick_help_sheet.dart';
 import '../../widgets/common/submit_button.dart';
 
 class SpecialPeriodAddScreen extends StatefulWidget {
@@ -23,17 +26,13 @@ class _SpecialPeriodAddScreenState extends State<SpecialPeriodAddScreen> {
   DateTime? startDate;
   DateTime? endDate;
 
-  Future<void> _showDatePicker(
-    BuildContext context,
-    bool isStartDate,
-  ) async {
+  Future<void> _showDatePicker(BuildContext context, bool isStartDate) async {
     final currentDate = isStartDate ? startDate : endDate;
     final picked = await showModalBottomSheet<DateTime>(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (context) => DatePickerSheet(
-        initialDate: currentDate ?? DateTime.now(),
-      ),
+      builder: (context) =>
+          DatePickerSheet(initialDate: currentDate ?? DateTime.now()),
     );
 
     if (picked != null) {
@@ -81,7 +80,7 @@ class _SpecialPeriodAddScreenState extends State<SpecialPeriodAddScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(width: 20),
-                  Icon(
+                  const Icon(
                     Icons.chevron_left,
                     size: 23,
                     color: AppColors.brandColor,
@@ -101,7 +100,11 @@ class _SpecialPeriodAddScreenState extends State<SpecialPeriodAddScreen> {
           leadingWidth: 80,
           title: Text(
             '선택사항',
-            style: pretendard(weight: 700, size: 20, color: AppColors.brandColor),
+            style: pretendard(
+              weight: 700,
+              size: 20,
+              color: AppColors.brandColor,
+            ),
           ),
         ),
       ),
@@ -115,15 +118,26 @@ class _SpecialPeriodAddScreenState extends State<SpecialPeriodAddScreen> {
                 children: [
                   Row(
                     children: [
-                      Text('특이 사항이 있는 기간', style: pretendard(weight: 700, size: 20)),
+                      Text(
+                        '특이 사항이 있는 기간',
+                        style: pretendard(weight: 700, size: 20),
+                      ),
                       const SizedBox(width: 8),
-                      HelpButton(onTap: () {
-                        // TODO: Show help dialog
-                      }),
+                      HelpButton(
+                        onTap: () {
+                          QuickHelpSheet.show(
+                            context,
+                            kind: QuickHelpKind.detailPeriods,
+                          );
+                        },
+                      ),
                     ],
                   ),
                   const SizedBox(height: 3),
-                  const BadgeLabel(text: '특이 사항은 최대 3개까지 입력 가능', isRequired: false),
+                  const BadgeLabel(
+                    text: '특이 사항은 최대 3개까지 입력 가능',
+                    isRequired: false,
+                  ),
                   const SizedBox(height: 18),
                   _buildReasonRow(),
                   const SizedBox(height: 12),
@@ -134,10 +148,7 @@ class _SpecialPeriodAddScreenState extends State<SpecialPeriodAddScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            SubmitButton(
-              text: '추가하기',
-              onPressed: _handleAddPeriod,
-            ),
+            SubmitButton(text: '추가하기', onPressed: _handleAddPeriod),
           ],
         ),
       ),

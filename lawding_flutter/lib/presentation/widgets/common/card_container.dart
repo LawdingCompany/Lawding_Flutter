@@ -15,10 +15,10 @@ class CardContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
-            color: const Color(0x0A000000), // #000000 4% = 0x0A
-            offset: const Offset(0, 0),
+            color: Color(0x0A000000), // #000000 4% = 0x0A
+            offset: Offset(0, 0),
             blurRadius: 10,
             spreadRadius: 2,
           ),

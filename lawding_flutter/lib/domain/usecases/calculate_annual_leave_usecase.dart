@@ -22,7 +22,7 @@ class CalculateAnnualLeaveUseCase {
   }) async {
     // 비즈니스 검증 로직
     if (referenceDate.isBefore(hireDate)) {
-      return Failure(
+      return const Failure(
         ServerError(
           message: '기준일은 입사일보다 이후여야 합니다',
           statusCode: 400,

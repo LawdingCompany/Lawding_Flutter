@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../domain/entities/help_content.dart';
 import '../../core/app_colors.dart';
 import '../../core/app_text_styles.dart';
 import '../../core/date_formatter.dart';
@@ -8,6 +9,7 @@ import '../../core/ui_helpers.dart';
 import '../../widgets/calculator/calculation_type_card.dart';
 import '../../widgets/calculator/period_list_card.dart';
 import '../../widgets/common/date_picker_sheet.dart';
+import '../../widgets/common/quick_help_sheet.dart';
 import '../../widgets/common/submit_button.dart';
 import '../../widgets/common/terms_agreement_text.dart';
 import '../company_holidays/company_holidays_add_screen.dart';
@@ -39,7 +41,11 @@ class CalculatorScreen extends ConsumerWidget {
               alignment: Alignment.centerLeft,
               child: Text(
                 'LawDing',
-                style: pretendard(weight: 700, size: 20, color: AppColors.brandColor),
+                style: pretendard(
+                  weight: 700,
+                  size: 20,
+                  color: AppColors.brandColor,
+                ),
               ),
             ),
           ),
@@ -50,8 +56,7 @@ class CalculatorScreen extends ConsumerWidget {
         child: Column(
           children: [
             CalculationTypeCard(
-              selectedTypeIndex:
-                  state.calculationType.code == 1 ? 0 : 1,
+              selectedTypeIndex: state.calculationType.code == 1 ? 0 : 1,
               onTypeChanged: viewModel.setCalculationType,
               hireDate: state.hireDate,
               referenceDate: state.referenceDate,
@@ -68,17 +73,25 @@ class CalculatorScreen extends ConsumerWidget {
                 viewModel.setReferenceDate,
               ),
               onHelpTap: () {
-                // TODO: Show help dialog
+                QuickHelpSheet.show(
+                  context,
+                  kind: QuickHelpKind.calculationType,
+                );
               },
             ),
             const SizedBox(height: 20),
             PeriodListCard(
               title: '특이 사항이 있는 기간',
               items: state.nonWorkingPeriods
-                  .map((p) => PeriodItem(
-                        title: p.displayName,
-                        duration: DateFormatter.toPeriodFormat(p.startDate, p.endDate),
-                      ))
+                  .map(
+                    (p) => PeriodItem(
+                      title: p.displayName,
+                      duration: DateFormatter.toPeriodFormat(
+                        p.startDate,
+                        p.endDate,
+                      ),
+                    ),
+                  )
                   .toList(),
               onAddTap: () async {
                 final canAddError = viewModel.canAddNonWorkingPeriod();
@@ -103,17 +116,19 @@ class CalculatorScreen extends ConsumerWidget {
               },
               onDeleteItem: viewModel.removeNonWorkingPeriod,
               onHelpTap: () {
-                // TODO: Show help dialog
+                QuickHelpSheet.show(context, kind: QuickHelpKind.detailPeriods);
               },
             ),
             const SizedBox(height: 20),
             PeriodListCard(
               title: '공휴일 외 회사휴일',
               items: state.companyHolidays
-                  .map((holiday) => PeriodItem(
-                        title: holiday.displayName,
-                        duration: DateFormatter.toDisplayFormat(holiday.date),
-                      ))
+                  .map(
+                    (holiday) => PeriodItem(
+                      title: holiday.displayName,
+                      duration: DateFormatter.toDisplayFormat(holiday.date),
+                    ),
+                  )
                   .toList(),
               onAddTap: () async {
                 final canAddError = viewModel.canAddCompanyHoliday();
@@ -138,7 +153,10 @@ class CalculatorScreen extends ConsumerWidget {
               },
               onDeleteItem: viewModel.removeCompanyHoliday,
               onHelpTap: () {
-                // TODO: Show help dialog
+                QuickHelpSheet.show(
+                  context,
+                  kind: QuickHelpKind.companyHolidays,
+                );
               },
             ),
             const SizedBox(height: 20),
@@ -183,9 +201,8 @@ class CalculatorScreen extends ConsumerWidget {
     final picked = await showModalBottomSheet<DateTime>(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (context) => DatePickerSheet(
-        initialDate: initialDate ?? DateTime.now(),
-      ),
+      builder: (context) =>
+          DatePickerSheet(initialDate: initialDate ?? DateTime.now()),
     );
 
     if (picked != null) {

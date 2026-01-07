@@ -8,6 +8,9 @@ class AppColors {
 
   // Primary Text Color
   static const Color primaryTextColor = Color(0xFF111111);
+
+  // Secondary Text Color
+  static const Color secondaryTextColor = Color(0xFF666666);
 }
 
 /// Hex 문자열을 Color로 변환

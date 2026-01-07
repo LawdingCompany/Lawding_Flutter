@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../../../domain/entities/company_holiday_type.dart';
+import '../../../domain/entities/help_content.dart';
 import '../../core/app_colors.dart';
 import '../../core/app_text_styles.dart';
 import '../../core/date_formatter.dart';
@@ -9,6 +11,7 @@ import '../../widgets/common/date_button.dart';
 import '../../widgets/common/date_picker_sheet.dart';
 import '../../widgets/common/dropdown_button.dart';
 import '../../widgets/common/help_button.dart';
+import '../../widgets/common/quick_help_sheet.dart';
 import '../../widgets/common/submit_button.dart';
 
 class CompanyHolidaysAddScreen extends StatefulWidget {
@@ -27,9 +30,8 @@ class _CompanyHolidaysAddScreenState extends State<CompanyHolidaysAddScreen> {
     final picked = await showModalBottomSheet<DateTime>(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (context) => DatePickerSheet(
-        initialDate: selectedDate ?? DateTime.now(),
-      ),
+      builder: (context) =>
+          DatePickerSheet(initialDate: selectedDate ?? DateTime.now()),
     );
 
     if (picked != null) {
@@ -71,7 +73,7 @@ class _CompanyHolidaysAddScreenState extends State<CompanyHolidaysAddScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(width: 20),
-                  Icon(
+                  const Icon(
                     Icons.chevron_left,
                     size: 23,
                     color: AppColors.brandColor,
@@ -91,7 +93,11 @@ class _CompanyHolidaysAddScreenState extends State<CompanyHolidaysAddScreen> {
           leadingWidth: 80,
           title: Text(
             '선택사항',
-            style: pretendard(weight: 700, size: 20, color: AppColors.brandColor),
+            style: pretendard(
+              weight: 700,
+              size: 20,
+              color: AppColors.brandColor,
+            ),
           ),
         ),
       ),
@@ -105,17 +111,26 @@ class _CompanyHolidaysAddScreenState extends State<CompanyHolidaysAddScreen> {
                 children: [
                   Row(
                     children: [
-                      Text('공휴일 외 회사휴일',
-                          style: pretendard(weight: 700, size: 20)),
+                      Text(
+                        '공휴일 외 회사휴일',
+                        style: pretendard(weight: 700, size: 20),
+                      ),
                       const SizedBox(width: 8),
-                      HelpButton(onTap: () {
-                        // TODO: Show help dialog
-                      }),
+                      HelpButton(
+                        onTap: () {
+                          QuickHelpSheet.show(
+                            context,
+                            kind: QuickHelpKind.companyHolidays,
+                          );
+                        },
+                      ),
                     ],
                   ),
                   const SizedBox(height: 3),
                   const BadgeLabel(
-                      text: '회사휴일은 최대 3개까지 입력 가능', isRequired: false),
+                    text: '회사휴일은 최대 3개까지 입력 가능',
+                    isRequired: false,
+                  ),
                   const SizedBox(height: 18),
                   _buildReasonRow(),
                   const SizedBox(height: 12),
@@ -124,10 +139,7 @@ class _CompanyHolidaysAddScreenState extends State<CompanyHolidaysAddScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            SubmitButton(
-              text: '추가하기',
-              onPressed: _handleAddHoliday,
-            ),
+            SubmitButton(text: '추가하기', onPressed: _handleAddHoliday),
           ],
         ),
       ),
