@@ -14,14 +14,15 @@ extension CalculatorResponseMapper on CalculatorResponse {
       hireDate: DateTime.parse(hireDate),
       referenceDate: DateTime.parse(referenceDate),
       nonWorkingPeriods: nonWorkingPeriod
-          ?.map((p) => NonWorkingPeriodEntity(
-                type: p.type,
-                startDate: DateTime.parse(p.startDate),
-                endDate: DateTime.parse(p.endDate),
-              ))
+          ?.map(
+            (p) => NonWorkingPeriodEntity(
+              type: p.type,
+              startDate: DateTime.parse(p.startDate),
+              endDate: DateTime.parse(p.endDate),
+            ),
+          )
           .toList(),
-      companyHolidays:
-          companyHolidays?.map(DateTime.parse).toList(),
+      companyHolidays: companyHolidays?.map(DateTime.parse).toList(),
       leaveType: leaveType.value,
       serviceYears: calculationDetail.serviceYears,
       totalDays: calculationDetail.totalLeaveDays,
@@ -30,6 +31,51 @@ extension CalculatorResponseMapper on CalculatorResponse {
       attendanceRate: calculationDetail.attendanceRate?.rate,
       explanations: explanations,
       nonWorkingExplanations: nonWorkingExplanations,
+      accrualPeriod: calculationDetail.accrualPeriod != null
+          ? PeriodEntity(
+              startDate: calculationDetail.accrualPeriod!.startDate,
+              endDate: calculationDetail.accrualPeriod!.endDate,
+            )
+          : null,
+      availablePeriod: calculationDetail.availablePeriod != null
+          ? PeriodEntity(
+              startDate: calculationDetail.availablePeriod!.startDate,
+              endDate: calculationDetail.availablePeriod!.endDate,
+            )
+          : null,
+      monthlyDetail: calculationDetail.monthlyDetail != null
+          ? LeaveDetailEntity(
+              accrualPeriod: PeriodEntity(
+                startDate:
+                    calculationDetail.monthlyDetail!.accrualPeriod.startDate,
+                endDate: calculationDetail.monthlyDetail!.accrualPeriod.endDate,
+              ),
+              availablePeriod: PeriodEntity(
+                startDate:
+                    calculationDetail.monthlyDetail!.availablePeriod.startDate,
+                endDate:
+                    calculationDetail.monthlyDetail!.availablePeriod.endDate,
+              ),
+              totalLeaveDays: calculationDetail.monthlyDetail!.totalLeaveDays,
+            )
+          : null,
+      proratedDetail: calculationDetail.proratedDetail != null
+          ? LeaveDetailEntity(
+              accrualPeriod: PeriodEntity(
+                startDate:
+                    calculationDetail.proratedDetail!.accrualPeriod.startDate,
+                endDate:
+                    calculationDetail.proratedDetail!.accrualPeriod.endDate,
+              ),
+              availablePeriod: PeriodEntity(
+                startDate:
+                    calculationDetail.proratedDetail!.availablePeriod.startDate,
+                endDate:
+                    calculationDetail.proratedDetail!.availablePeriod.endDate,
+              ),
+              totalLeaveDays: calculationDetail.proratedDetail!.totalLeaveDays,
+            )
+          : null,
     );
   }
 }

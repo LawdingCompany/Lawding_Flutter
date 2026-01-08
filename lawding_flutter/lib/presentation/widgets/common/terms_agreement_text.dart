@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
 import '../../core/app_colors.dart';
 import '../../core/app_text_styles.dart';
 
@@ -20,7 +21,11 @@ class TermsAgreementText extends StatelessWidget {
             const TextSpan(text: '계산하기 버튼을 통해 앱 '),
             TextSpan(
               text: '이용약관',
-              style: pretendard(size: 12, weight: 700, color: AppColors.brandColor),
+              style: pretendard(
+                size: 12,
+                weight: 700,
+                color: AppColors.brandColor,
+              ).copyWith(decoration: TextDecoration.underline),
               recognizer: TapGestureRecognizer()..onTap = onTermsTap,
             ),
             const TextSpan(text: '에 동의한 것으로 간주됩니다.'),
