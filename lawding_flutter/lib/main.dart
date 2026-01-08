@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'firebase_options.dart';
 import 'presentation/core/app_colors.dart';
 import 'presentation/screens/calculator/calculator_screen.dart';
@@ -17,9 +18,7 @@ Future<void> main() async {
 
   runApp(
     // Riverpod ProviderScope로 앱 전체 감싸기
-    const ProviderScope(
-      child: MyApp(),
-    ),
+    const ProviderScope(child: MyApp()),
   );
 }
 
@@ -32,12 +31,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Lawding',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryTextColor),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: AppColors.primaryTextColor,
+        ),
         useMaterial3: true,
         scaffoldBackgroundColor: AppColors.brandColor,
         fontFamily: 'Pretendard',
       ),
-      home: CalculatorScreen(key: UniqueKey()),
+      home: const CalculatorScreen(),
     );
   }
 }
