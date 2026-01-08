@@ -7,6 +7,7 @@ import '../../core/color_extensions.dart';
 import '../../widgets/common/card_container.dart';
 import '../../widgets/common/submit_button.dart';
 import '../../widgets/result/result_badge.dart';
+import '../feedback/feedback_screen.dart';
 
 class ResultScreen extends StatelessWidget {
   final AnnualLeave result;
@@ -73,7 +74,14 @@ class ResultScreen extends StatelessWidget {
             const SizedBox(height: 22),
             GestureDetector(
               onTap: () {
-                // TODO: Navigate to feedback screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FeedbackScreen(
+                      calculationId: result.calculationId,
+                    ),
+                  ),
+                );
               },
               child: RichText(
                 text: TextSpan(
