@@ -7,7 +7,7 @@ part of 'calculator_view_model.dart';
 // **************************************************************************
 
 String _$calculatorViewModelHash() =>
-    r'0b39c5b278e3dd67a9438b4a9c2af3a37e541092';
+    r'f4591fc4020786c748e8ce69318ca0ddebbb79f8';
 
 /// See also [CalculatorViewModel].
 @ProviderFor(CalculatorViewModel)

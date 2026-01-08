@@ -12,20 +12,21 @@ class DioClient {
     String platform = 'ios',
     bool isTestMode = true,
     Dio? dio,
-  }) : _dio = dio ??
-            Dio(
-              BaseOptions(
-                baseUrl: baseUrl,
-                connectTimeout: const Duration(seconds: 30),
-                receiveTimeout: const Duration(seconds: 30),
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json',
-                  'X-Platform': platform,
-                  if (isTestMode) 'X-Test': 'true',
-                },
-              ),
-            ) {
+  }) : _dio =
+           dio ??
+           Dio(
+             BaseOptions(
+               baseUrl: baseUrl,
+               connectTimeout: const Duration(seconds: 30),
+               receiveTimeout: const Duration(seconds: 30),
+               headers: {
+                 'Content-Type': 'application/json',
+                 'Accept': 'application/json',
+                 'X-Platform': platform,
+                 if (isTestMode) 'X-Test': 'true',
+               },
+             ),
+           ) {
     // 외부에서 dio를 주입받은 경우에도 헤더 설정
     if (dio != null) {
       _dio.options.baseUrl = baseUrl;
