@@ -13,6 +13,7 @@ import '../../widgets/common/quick_help_sheet.dart';
 import '../../widgets/common/submit_button.dart';
 import '../../widgets/common/terms_agreement_text.dart';
 import '../company_holidays/company_holidays_add_screen.dart';
+import '../result/result_screen.dart';
 import '../special_period/special_period_add_screen.dart';
 import 'calculator_view_model.dart';
 
@@ -180,10 +181,19 @@ class CalculatorScreen extends ConsumerWidget {
 
                 if (!context.mounted) return;
 
-                if (state.result != null) {
-                  // TODO: Navigate to result screen
-                } else if (state.error != null) {
-                  UiHelpers.showSnackBar(context, state.error!);
+                final updatedState = ref.read(calculatorViewModelProvider);
+                final result = updatedState.result;
+                final error = updatedState.error;
+
+                if (result != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ResultScreen(result: result),
+                    ),
+                  );
+                } else if (error != null) {
+                  UiHelpers.showSnackBar(context, error);
                 }
               },
             ),
