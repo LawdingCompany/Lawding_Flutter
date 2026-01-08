@@ -15,6 +15,7 @@ import '../../widgets/common/terms_agreement_text.dart';
 import '../company_holidays/company_holidays_add_screen.dart';
 import '../result/result_screen.dart';
 import '../special_period/special_period_add_screen.dart';
+import '../webview/webview_screen.dart';
 import 'calculator_view_model.dart';
 
 class CalculatorScreen extends ConsumerWidget {
@@ -163,7 +164,16 @@ class CalculatorScreen extends ConsumerWidget {
             const SizedBox(height: 20),
             TermsAgreementText(
               onTermsTap: () {
-                // TODO: Show terms of service
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const WebViewScreen(
+                      url:
+                          'https://maze-palladium-edf.notion.site/Lawding-273c4b24d2e2805f99f5f0eba1645a96?source=copy_link',
+                      title: '이용약관',
+                    ),
+                  ),
+                );
               },
             ),
             const SizedBox(height: 20),
