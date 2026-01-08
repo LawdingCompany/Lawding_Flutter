@@ -45,6 +45,18 @@ class AnnualLeave {
   /// 휴직 관련 설명
   final List<String>? nonWorkingExplanations;
 
+  /// 산정 기간
+  final PeriodEntity? accrualPeriod;
+
+  /// 사용 기간
+  final PeriodEntity? availablePeriod;
+
+  /// 월차 상세 정보
+  final LeaveDetailEntity? monthlyDetail;
+
+  /// 비례연차 상세 정보
+  final LeaveDetailEntity? proratedDetail;
+
   const AnnualLeave({
     required this.calculationId,
     required this.calculationType,
@@ -61,6 +73,10 @@ class AnnualLeave {
     this.attendanceRate,
     required this.explanations,
     this.nonWorkingExplanations,
+    this.accrualPeriod,
+    this.availablePeriod,
+    this.monthlyDetail,
+    this.proratedDetail,
   });
 
   /// 남은 연차 일수 (사용하지 않은 연차, 현재는 totalDays와 동일)
@@ -97,5 +113,26 @@ class NonWorkingPeriodEntity {
     required this.type,
     required this.startDate,
     required this.endDate,
+  });
+}
+
+/// 기간 엔티티
+class PeriodEntity {
+  final String startDate;
+  final String endDate;
+
+  const PeriodEntity({required this.startDate, required this.endDate});
+}
+
+/// 연차 상세 정보 엔티티 (월차 또는 비례연차)
+class LeaveDetailEntity {
+  final PeriodEntity accrualPeriod;
+  final PeriodEntity availablePeriod;
+  final double totalLeaveDays;
+
+  const LeaveDetailEntity({
+    required this.accrualPeriod,
+    required this.availablePeriod,
+    required this.totalLeaveDays,
   });
 }
