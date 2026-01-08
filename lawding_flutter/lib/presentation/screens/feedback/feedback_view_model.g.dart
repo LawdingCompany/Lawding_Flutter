@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'calculator_view_model.dart';
+part of 'feedback_view_model.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$calculatorViewModelHash() =>
-    r'f4591fc4020786c748e8ce69318ca0ddebbb79f8';
+String _$feedbackViewModelHash() => r'0ee8091896c8519a279c04da86569983a06b5ca6';
 
-/// See also [CalculatorViewModel].
-@ProviderFor(CalculatorViewModel)
-final calculatorViewModelProvider =
-    AutoDisposeNotifierProvider<CalculatorViewModel, CalculatorState>.internal(
-      CalculatorViewModel.new,
-      name: r'calculatorViewModelProvider',
+/// See also [FeedbackViewModel].
+@ProviderFor(FeedbackViewModel)
+final feedbackViewModelProvider =
+    AutoDisposeNotifierProvider<FeedbackViewModel, FeedbackState>.internal(
+      FeedbackViewModel.new,
+      name: r'feedbackViewModelProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$calculatorViewModelHash,
+          : _$feedbackViewModelHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
-typedef _$CalculatorViewModel = AutoDisposeNotifier<CalculatorState>;
+typedef _$FeedbackViewModel = AutoDisposeNotifier<FeedbackState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -70,12 +70,6 @@ class Feedback {
 
   @override
   int get hashCode {
-    return Object.hash(
-      category,
-      content,
-      email,
-      rating,
-      calculationId,
-    );
+    return Object.hash(category, content, email, rating, calculationId);
   }
 }
