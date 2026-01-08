@@ -126,35 +126,24 @@ class _CalculationTypeCardState extends State<CalculationTypeCard> {
         GestureDetector(
           onTap: onTap,
           child: Container(
+            width: 150,
             height: 44,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
               color: hex('#FBFBFB'),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset(
-                  'assets/icons/calendar.png',
-                  width: 16,
-                  height: 16,
+            child: Center(
+              child: Text(
+                _getMonthDayText(month),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                style: pretendard(
+                  weight: 500,
+                  size: 15,
                   color: AppColors.primaryTextColor,
                 ),
-                const SizedBox(width: 8),
-                SizedBox(
-                  width: 144,
-                  child: Text(
-                    _getMonthDayText(month),
-                    textAlign: TextAlign.center,
-                    style: pretendard(
-                      weight: 500,
-                      size: 15,
-                      color: AppColors.primaryTextColor,
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),
