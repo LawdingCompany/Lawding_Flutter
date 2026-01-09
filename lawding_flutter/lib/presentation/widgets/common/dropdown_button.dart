@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../core/app_colors.dart';
 import '../../core/app_text_styles.dart';
 
@@ -19,7 +20,8 @@ class CustomDropdownButton<T> extends StatefulWidget {
   });
 
   @override
-  State<CustomDropdownButton<T>> createState() => _CustomDropdownButtonState<T>();
+  State<CustomDropdownButton<T>> createState() =>
+      _CustomDropdownButtonState<T>();
 }
 
 class _CustomDropdownButtonState<T> extends State<CustomDropdownButton<T>>
@@ -58,9 +60,7 @@ class _CustomDropdownButtonState<T> extends State<CustomDropdownButton<T>>
         behavior: HitTestBehavior.translucent,
         child: Stack(
           children: [
-            Positioned.fill(
-              child: Container(color: Colors.transparent),
-            ),
+            Positioned.fill(child: Container(color: Colors.transparent)),
             Positioned(
               width: size.width,
               child: CompositedTransformFollower(
@@ -110,7 +110,10 @@ class _CustomDropdownButtonState<T> extends State<CustomDropdownButton<T>>
                               _removeOverlay();
                             },
                             child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 14,
+                              ),
                               decoration: BoxDecoration(
                                 border: index < widget.items.length - 1
                                     ? Border(
@@ -126,7 +129,9 @@ class _CustomDropdownButtonState<T> extends State<CustomDropdownButton<T>>
                                 style: pretendard(
                                   weight: isSelected ? 600 : 500,
                                   size: 15,
-                                  color: isSelected ? AppColors.brandColor : AppColors.primaryTextColor,
+                                  color: isSelected
+                                      ? AppColors.brandColor
+                                      : AppColors.primaryTextColor,
                                 ),
                               ),
                             ),
@@ -166,6 +171,7 @@ class _CustomDropdownButtonState<T> extends State<CustomDropdownButton<T>>
       child: GestureDetector(
         onTap: _toggleDropdown,
         child: Container(
+          width: 200,
           height: 44,
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
@@ -173,13 +179,13 @@ class _CustomDropdownButtonState<T> extends State<CustomDropdownButton<T>>
             borderRadius: BorderRadius.circular(8),
           ),
           child: Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                width: 144,
+              Flexible(
                 child: Text(
                   widget.selectedValue ?? widget.placeholder,
                   textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
                   style: pretendard(weight: 500, size: 15).copyWith(
                     color: widget.selectedValue != null
                         ? AppColors.primaryTextColor
