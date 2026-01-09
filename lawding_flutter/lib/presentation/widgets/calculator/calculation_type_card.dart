@@ -40,10 +40,6 @@ class CalculationTypeCard extends StatefulWidget {
 }
 
 class _CalculationTypeCardState extends State<CalculationTypeCard> {
-  String _getMonthDayText(int month) {
-    return '$month월 1일';
-  }
-
   void _showMonthPicker(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -119,33 +115,17 @@ class _CalculationTypeCardState extends State<CalculationTypeCard> {
   }
 
   Widget _buildMonthRow(String label, int month, VoidCallback onTap) {
+    final monthDate = DateTime(DateTime.now().year, month);
+
     return Row(
       children: [
         Text(label, style: pretendard(weight: 700, size: 15)),
         const Spacer(),
-        GestureDetector(
+        DateButton(
+          placeholder: 'MM월 1일',
+          selectedDate: monthDate,
           onTap: onTap,
-          child: Container(
-            width: 150,
-            height: 44,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: BoxDecoration(
-              color: hex('#FBFBFB'),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Center(
-              child: Text(
-                _getMonthDayText(month),
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: pretendard(
-                  weight: 500,
-                  size: 15,
-                  color: AppColors.primaryTextColor,
-                ),
-              ),
-            ),
-          ),
+          displayMode: DateDisplayMode.monthDay,
         ),
       ],
     );
