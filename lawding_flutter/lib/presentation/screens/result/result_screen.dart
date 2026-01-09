@@ -7,6 +7,7 @@ import '../../core/color_extensions.dart';
 import '../../widgets/common/card_container.dart';
 import '../../widgets/common/submit_button.dart';
 import '../../widgets/result/result_badge.dart';
+import '../calculation_detail/calculation_detail_screen.dart';
 import '../feedback/feedback_screen.dart';
 
 class ResultScreen extends StatelessWidget {
@@ -77,9 +78,8 @@ class ResultScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => FeedbackScreen(
-                      calculationId: result.calculationId,
-                    ),
+                    builder: (context) =>
+                        FeedbackScreen(calculationId: result.calculationId),
                   ),
                 );
               },
@@ -137,7 +137,9 @@ class _ResultCard extends StatelessWidget {
     final days = _calculateDaysBetween(result.hireDate, result.referenceDate);
 
     // MONTHLY_AND_PRORATED인 경우에만 비례연차 배지를 따로 표시
-    final showProratedBadge = result.leaveType == 'MONTHLY_AND_PRORATED' && result.proratedDetail != null;
+    final showProratedBadge =
+        result.leaveType == 'MONTHLY_AND_PRORATED' &&
+        result.proratedDetail != null;
 
     return CardContainer(
       child: Column(
@@ -195,21 +197,28 @@ class _ResultCard extends StatelessWidget {
     // PRORATED만 있는 경우: 비례연차 사용 기간 표시 (이 케이스는 아래에서 처리 안됨)
     // availablePeriod가 있는 경우 (연차): 사용 기간 표시
 
-    if (result.leaveType == 'MONTHLY_AND_PRORATED' && result.monthlyDetail != null) {
+    if (result.leaveType == 'MONTHLY_AND_PRORATED' &&
+        result.monthlyDetail != null) {
       // 월차 + 비례연차 케이스: 월차 사용 기간만 표시
       final monthlyPeriod = result.monthlyDetail!.availablePeriod;
-      periodText = '월차 사용 기간:  ${monthlyPeriod.startDate} ~ ${monthlyPeriod.endDate}';
+      periodText =
+          '월차 사용 기간:  ${monthlyPeriod.startDate} ~ ${monthlyPeriod.endDate}';
     } else if (result.leaveType == 'MONTHLY' && result.monthlyDetail != null) {
       // 월차만 있는 케이스: 월차 사용 기간 표시
       final monthlyPeriod = result.monthlyDetail!.availablePeriod;
-      periodText = '월차 사용 기간:  ${monthlyPeriod.startDate} ~ ${monthlyPeriod.endDate}';
-    } else if (result.leaveType == 'PRORATED' && result.proratedDetail != null && result.monthlyDetail == null) {
+      periodText =
+          '월차 사용 기간:  ${monthlyPeriod.startDate} ~ ${monthlyPeriod.endDate}';
+    } else if (result.leaveType == 'PRORATED' &&
+        result.proratedDetail != null &&
+        result.monthlyDetail == null) {
       // 비례연차만 있는 케이스: 비례연차 사용 기간 표시
       final proratedPeriod = result.proratedDetail!.availablePeriod;
-      periodText = '비례연차 사용 기간:  ${proratedPeriod.startDate} ~ ${proratedPeriod.endDate}';
+      periodText =
+          '비례연차 사용 기간:  ${proratedPeriod.startDate} ~ ${proratedPeriod.endDate}';
     } else if (result.availablePeriod != null) {
       // 일반 연차 케이스: 사용 기간 표시
-      periodText = '사용 기간:  ${result.availablePeriod!.startDate} ~ ${result.availablePeriod!.endDate}';
+      periodText =
+          '사용 기간:  ${result.availablePeriod!.startDate} ~ ${result.availablePeriod!.endDate}';
     } else {
       periodText = '사용 기간 -';
     }
@@ -322,7 +331,8 @@ class _InfoCard extends StatelessWidget {
 
     // MONTHLY_AND_PRORATED가 아니고 섹션이 있으면 총 합계 구분선 표시 안함
     // (월차만 또는 비례연차만 있는 경우)
-    final showTotalSeparator = result.leaveType == 'MONTHLY_AND_PRORATED' && hasAnySection;
+    final showTotalSeparator =
+        result.leaveType == 'MONTHLY_AND_PRORATED' && hasAnySection;
 
     return CardContainer(
       child: Column(
@@ -423,7 +433,14 @@ class _CalculationDetailSection extends StatelessWidget {
               const Spacer(),
               GestureDetector(
                 onTap: () {
-                  // TODO: Navigate to detail screen
+                  print(result);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          CalculationDetailScreen(result: result),
+                    ),
+                  );
                 },
                 child: Container(
                   width: 42,

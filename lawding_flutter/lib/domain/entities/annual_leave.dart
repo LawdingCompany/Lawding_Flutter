@@ -124,15 +124,49 @@ class PeriodEntity {
   const PeriodEntity({required this.startDate, required this.endDate});
 }
 
+/// 비율 엔티티
+class RatioEntity {
+  final int numerator;
+  final int denominator;
+  final double rate;
+
+  const RatioEntity({
+    required this.numerator,
+    required this.denominator,
+    required this.rate,
+  });
+}
+
+/// 월별 기록 엔티티
+class RecordEntity {
+  final PeriodEntity period;
+  final double monthlyLeave;
+
+  const RecordEntity({
+    required this.period,
+    required this.monthlyLeave,
+  });
+}
+
 /// 연차 상세 정보 엔티티 (월차 또는 비례연차)
 class LeaveDetailEntity {
   final PeriodEntity accrualPeriod;
   final PeriodEntity availablePeriod;
   final double totalLeaveDays;
+  final RatioEntity? attendanceRate;
+  final RatioEntity? prescribedWorkingRatio;
+  final int? serviceYears;
+  final double? prescribedWorkingRatioForProrated;
+  final List<RecordEntity>? records;
 
   const LeaveDetailEntity({
     required this.accrualPeriod,
     required this.availablePeriod,
     required this.totalLeaveDays,
+    this.attendanceRate,
+    this.prescribedWorkingRatio,
+    this.serviceYears,
+    this.prescribedWorkingRatioForProrated,
+    this.records,
   });
 }

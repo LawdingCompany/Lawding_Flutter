@@ -57,6 +57,41 @@ extension CalculatorResponseMapper on CalculatorResponse {
                     calculationDetail.monthlyDetail!.availablePeriod.endDate,
               ),
               totalLeaveDays: calculationDetail.monthlyDetail!.totalLeaveDays,
+              attendanceRate:
+                  calculationDetail.monthlyDetail!.attendanceRate != null
+                      ? RatioEntity(
+                          numerator: calculationDetail
+                              .monthlyDetail!.attendanceRate!.numerator,
+                          denominator: calculationDetail
+                              .monthlyDetail!.attendanceRate!.denominator,
+                          rate: calculationDetail
+                              .monthlyDetail!.attendanceRate!.rate,
+                        )
+                      : null,
+              prescribedWorkingRatio: calculationDetail
+                          .monthlyDetail!.prescribedWorkingRatio !=
+                      null
+                  ? RatioEntity(
+                      numerator: calculationDetail
+                          .monthlyDetail!.prescribedWorkingRatio!.numerator,
+                      denominator: calculationDetail
+                          .monthlyDetail!.prescribedWorkingRatio!.denominator,
+                      rate: calculationDetail
+                          .monthlyDetail!.prescribedWorkingRatio!.rate,
+                    )
+                  : null,
+              serviceYears: calculationDetail.monthlyDetail!.serviceYears,
+              records: calculationDetail.monthlyDetail!.records
+                  .map(
+                    (r) => RecordEntity(
+                      period: PeriodEntity(
+                        startDate: r.period.startDate,
+                        endDate: r.period.endDate,
+                      ),
+                      monthlyLeave: r.monthlyLeave,
+                    ),
+                  )
+                  .toList(),
             )
           : null,
       proratedDetail: calculationDetail.proratedDetail != null
@@ -74,6 +109,43 @@ extension CalculatorResponseMapper on CalculatorResponse {
                     calculationDetail.proratedDetail!.availablePeriod.endDate,
               ),
               totalLeaveDays: calculationDetail.proratedDetail!.totalLeaveDays,
+              attendanceRate:
+                  calculationDetail.proratedDetail!.attendanceRate != null
+                      ? RatioEntity(
+                          numerator: calculationDetail
+                              .proratedDetail!.attendanceRate!.numerator,
+                          denominator: calculationDetail
+                              .proratedDetail!.attendanceRate!.denominator,
+                          rate: calculationDetail
+                              .proratedDetail!.attendanceRate!.rate,
+                        )
+                      : null,
+              prescribedWorkingRatio: calculationDetail
+                          .proratedDetail!.prescribedWorkingRatio !=
+                      null
+                  ? RatioEntity(
+                      numerator: calculationDetail
+                          .proratedDetail!.prescribedWorkingRatio!.numerator,
+                      denominator: calculationDetail.proratedDetail!
+                          .prescribedWorkingRatio!.denominator,
+                      rate: calculationDetail
+                          .proratedDetail!.prescribedWorkingRatio!.rate,
+                    )
+                  : null,
+              serviceYears: calculationDetail.proratedDetail!.serviceYears,
+              prescribedWorkingRatioForProrated: calculationDetail
+                  .proratedDetail!.prescribedWorkingRatioForProrated,
+              records: calculationDetail.proratedDetail!.records
+                  ?.map(
+                    (r) => RecordEntity(
+                      period: PeriodEntity(
+                        startDate: r.period.startDate,
+                        endDate: r.period.endDate,
+                      ),
+                      monthlyLeave: r.monthlyLeave,
+                    ),
+                  )
+                  .toList(),
             )
           : null,
     );
