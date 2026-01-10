@@ -7,6 +7,7 @@ import '../../core/app_text_styles.dart';
 import '../../core/date_formatter.dart';
 import '../../widgets/common/badge_label.dart';
 import '../../widgets/common/card_container.dart';
+import '../../widgets/common/custom_app_bar.dart';
 import '../../widgets/common/date_button.dart';
 import '../../widgets/common/date_picker_sheet.dart';
 import '../../widgets/common/dropdown_button.dart';
@@ -65,49 +66,7 @@ class _SpecialPeriodAddScreenState extends State<SpecialPeriodAddScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: hex('#FBFBFB'),
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(56),
-        child: AppBar(
-          backgroundColor: hex('#FBFBFB'),
-          surfaceTintColor: hex('#FBFBFB'),
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          centerTitle: true,
-          leading: GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(width: 20),
-                  const Icon(
-                    Icons.chevron_left,
-                    size: 23,
-                    color: AppColors.brandColor,
-                  ),
-                  Text(
-                    '뒤로',
-                    style: pretendard(
-                      weight: 700,
-                      size: 20,
-                      color: AppColors.brandColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          leadingWidth: 80,
-          title: Text(
-            '선택사항',
-            style: pretendard(
-              weight: 700,
-              size: 20,
-              color: AppColors.brandColor,
-            ),
-          ),
-        ),
-      ),
+      appBar: const CustomAppBar(title: '선택사항'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(

@@ -5,6 +5,7 @@ import '../../core/app_colors.dart';
 import '../../core/app_text_styles.dart';
 import '../../core/ui_helpers.dart';
 import '../../widgets/common/card_container.dart';
+import '../../widgets/common/custom_app_bar.dart';
 import '../../widgets/common/submit_button.dart';
 import 'feedback_view_model.dart';
 
@@ -52,41 +53,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: hex('#FBFBFB'),
-      appBar: AppBar(
-        backgroundColor: hex('#FBFBFB'),
-        surfaceTintColor: hex('#FBFBFB'),
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leadingWidth: 90,
-        leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
-          behavior: HitTestBehavior.opaque,
-          child: Row(
-            children: [
-              const SizedBox(width: 20),
-              const Icon(
-                Icons.arrow_back_ios,
-                size: 18,
-                color: AppColors.brandColor,
-              ),
-              const SizedBox(width: 3),
-              Text(
-                '뒤로',
-                style: pretendard(
-                  weight: 700,
-                  size: 20,
-                  color: AppColors.brandColor,
-                ),
-              ),
-            ],
-          ),
-        ),
-        title: Text(
-          '피드백',
-          style: pretendard(weight: 700, size: 20, color: AppColors.brandColor),
-        ),
-        centerTitle: true,
-      ),
+      appBar: const CustomAppBar(title: '피드백'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(

@@ -4,6 +4,7 @@ import '../../../domain/entities/annual_leave.dart';
 import '../../core/app_colors.dart';
 import '../../core/app_text_styles.dart';
 import '../../widgets/common/card_container.dart';
+import '../../widgets/common/custom_app_bar.dart';
 
 class CalculationDetailScreen extends StatefulWidget {
   final AnnualLeave result;
@@ -59,49 +60,7 @@ class _CalculationDetailScreenState extends State<CalculationDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: hex('#FBFBFB'),
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(56),
-        child: AppBar(
-          backgroundColor: hex('#FBFBFB'),
-          surfaceTintColor: hex('#FBFBFB'),
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          centerTitle: true,
-          leading: GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(width: 20),
-                  const Icon(
-                    Icons.chevron_left,
-                    size: 23,
-                    color: AppColors.brandColor,
-                  ),
-                  Text(
-                    '뒤로',
-                    style: pretendard(
-                      weight: 700,
-                      size: 20,
-                      color: AppColors.brandColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          leadingWidth: 80,
-          title: Text(
-            '계산 기준 설명',
-            style: pretendard(
-              weight: 700,
-              size: 20,
-              color: AppColors.brandColor,
-            ),
-          ),
-        ),
-      ),
+      appBar: const CustomAppBar(title: '계산 기준 설명'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(

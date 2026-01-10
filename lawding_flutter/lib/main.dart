@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'firebase_options.dart';
 import 'presentation/core/app_colors.dart';
-import 'presentation/screens/calculator/calculator_screen.dart';
+import 'presentation/screens/splash/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.brandColor,
         fontFamily: 'Pretendard',
       ),
-      home: const CalculatorScreen(),
+      home: const SplashScreen(),
     );
   }
 }
