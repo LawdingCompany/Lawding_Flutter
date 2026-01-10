@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+
+import '../../../infrastructure/services/analytics_service.dart';
+import '../../../infrastructure/services/crashlytics_service.dart';
 import '../calculator/calculator_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -10,6 +13,10 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final _analytics = AnalyticsService();
+  final _crashlytics = CrashlyticsService();
+  final _startTime = DateTime.now();
+
   @override
   void initState() {
     super.initState();
@@ -17,28 +24,53 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _initializeApp() async {
-    // TODO: 여기에 초기화 메서드들을 추가하세요
-    // 예: await _loadUserData();
-    // 예: await _checkAppVersion();
+    try {
+      // TODO: 여기에 초기화 메서드들을 추가하세요
+      // 예: await _loadUserData();
+      // 예: await _checkAppVersion();
 
-    // 3초 대기
-    await Future.delayed(const Duration(milliseconds: 3000));
+      // 이전 세션에서 크래시가 발생했는지 확인
+      final didCrash = await _crashlytics.didCrashOnPreviousExecution();
+      if (didCrash) {
+        await _crashlytics.log('App crashed in previous session');
+      }
 
-    if (mounted) {
-      // 페이드 아웃과 함께 화면 전환
-      Navigator.of(context).pushReplacement(
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const CalculatorScreen(),
-          transitionDuration: const Duration(milliseconds: 800),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
-          },
-        ),
+      // 3초 대기
+      await Future.delayed(const Duration(milliseconds: 3000));
+
+      if (mounted) {
+        // 스플래시 완료 이벤트 기록
+        final duration = DateTime.now().difference(_startTime).inMilliseconds;
+        await _analytics.logSplashCompleted(duration);
+
+        // 페이드 아웃과 함께 화면 전환
+        Navigator.of(context).pushReplacement(
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const CalculatorScreen(),
+            transitionDuration: const Duration(milliseconds: 800),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+          ),
+        );
+      }
+    } catch (e, stack) {
+      // 초기화 중 에러 발생 시 기록
+      await _crashlytics.recordError(
+        e,
+        stack,
+        reason: 'Splash initialization failed',
       );
+      // 에러가 발생해도 앱은 계속 진행
+      if (mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const CalculatorScreen()),
+        );
+      }
     }
   }
 
