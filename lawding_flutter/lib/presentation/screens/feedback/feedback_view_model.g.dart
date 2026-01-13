@@ -6,7 +6,7 @@ part of 'feedback_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$feedbackViewModelHash() => r'0ee8091896c8519a279c04da86569983a06b5ca6';
+String _$feedbackViewModelHash() => r'0627eb4c48d3b8fbc7057b01927da27bd685ab4a';
 
 /// See also [FeedbackViewModel].
 @ProviderFor(FeedbackViewModel)

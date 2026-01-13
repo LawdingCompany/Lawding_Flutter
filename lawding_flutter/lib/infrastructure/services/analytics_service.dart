@@ -156,10 +156,7 @@ class AnalyticsService {
   Future<void> logExternalLinkClicked(String linkType, String url) async {
     await _analytics.logEvent(
       name: 'external_link_clicked',
-      parameters: {
-        'link_type': linkType,
-        'url': url,
-      },
+      parameters: {'link_type': linkType, 'url': url},
     );
   }
 
@@ -167,9 +164,7 @@ class AnalyticsService {
   Future<void> logFeedbackScreenOpened({String? calculationId}) async {
     await _analytics.logEvent(
       name: 'feedback_screen_opened',
-      parameters: {
-        'has_calculation_id': calculationId != null,
-      },
+      parameters: {'has_calculation_id': calculationId != null},
     );
   }
 
@@ -216,10 +211,7 @@ class AnalyticsService {
   }) async {
     await _analytics.logEvent(
       name: 'feedback_submit_failed',
-      parameters: {
-        'type': feedbackType,
-        'error_message': errorMessage,
-      },
+      parameters: {'type': feedbackType, 'error_message': errorMessage},
     );
   }
 
@@ -227,10 +219,7 @@ class AnalyticsService {
   Future<void> logWebViewOpened(String url, String title) async {
     await _analytics.logEvent(
       name: 'webview_opened',
-      parameters: {
-        'url': url,
-        'title': title,
-      },
+      parameters: {'url': url, 'title': title},
     );
   }
 
