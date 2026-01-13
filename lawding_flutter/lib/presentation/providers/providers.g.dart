@@ -71,6 +71,28 @@ final feedbackRepositoryProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef FeedbackRepositoryRef = AutoDisposeProviderRef<FeedbackRepository>;
+String _$appVersionRepositoryHash() =>
+    r'ff55389fd953efcfa345ff83294c3c2b7b90baea';
+
+/// AppVersionRepository Provider
+/// 앱 버전 체크 Repository 구현체 제공
+///
+/// Copied from [appVersionRepository].
+@ProviderFor(appVersionRepository)
+final appVersionRepositoryProvider =
+    AutoDisposeProvider<AppVersionRepository>.internal(
+      appVersionRepository,
+      name: r'appVersionRepositoryProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$appVersionRepositoryHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef AppVersionRepositoryRef = AutoDisposeProviderRef<AppVersionRepository>;
 String _$calculateAnnualLeaveUseCaseHash() =>
     r'b8f17d7996bac3a788a250d5a3b68fe30b82be78';
 

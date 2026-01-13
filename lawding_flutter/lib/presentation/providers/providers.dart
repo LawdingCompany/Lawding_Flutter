@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../data/annual_leave_calculator/calculator_repository_impl.dart';
+import '../../data/app_version/app_version_repository_impl.dart';
 import '../../data/feedback/feedback_repository_impl.dart';
 import '../../data/network/dio_client.dart';
 import '../../domain/repositories/annual_leave_repository.dart';
+import '../../domain/repositories/app_version_repository.dart';
 import '../../domain/repositories/feedback_repository.dart';
 import '../../domain/usecases/calculate_annual_leave_usecase.dart';
 import '../../domain/usecases/submit_feedback_usecase.dart';
@@ -42,6 +44,14 @@ AnnualLeaveRepository annualLeaveRepository(Ref ref) {
 FeedbackRepository feedbackRepository(Ref ref) {
   final dioClient = ref.watch(dioClientProvider);
   return FeedbackRepositoryImpl(dioClient);
+}
+
+/// AppVersionRepository Provider
+/// 앱 버전 체크 Repository 구현체 제공
+@riverpod
+AppVersionRepository appVersionRepository(Ref ref) {
+  final dioClient = ref.watch(dioClientProvider);
+  return AppVersionRepositoryImpl(dioClient);
 }
 
 // ============================================================================

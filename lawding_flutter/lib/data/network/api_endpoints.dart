@@ -6,4 +6,7 @@ class ApiEndpoints {
 
   // Feedback
   static const String submitFeedback = '/v1/feedback';
+
+  // App Version
+  static const String checkVersion = '/v1/app/version-check';
 }
