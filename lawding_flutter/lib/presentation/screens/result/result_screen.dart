@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../domain/entities/annual_leave.dart';
 import '../../core/app_colors.dart';
 import '../../core/app_text_styles.dart';
-import '../../core/color_extensions.dart';
 import '../../widgets/common/card_container.dart';
 import '../../widgets/common/custom_app_bar.dart';
 import '../../widgets/common/submit_button.dart';
@@ -19,7 +18,7 @@ class ResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: hex('#FBFBFB'),
+      backgroundColor: AppColors.background,
       appBar: const CustomAppBar(title: '계산결과'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -47,7 +46,7 @@ class ResultScreen extends StatelessWidget {
                   style: pretendard(
                     weight: 500,
                     size: 12,
-                    color: hex('#BEC1C8'),
+                    color: AppColors.secondaryTextColor,
                   ),
                   children: [
                     const TextSpan(text: '여러분의 소중한 의견을 '),
@@ -57,7 +56,7 @@ class ResultScreen extends StatelessWidget {
                         fontFamily: 'Pretendard',
                         fontWeight: FontWeight.w700,
                         fontSize: 12,
-                        color: hex('#0057B8'),
+                        color: AppColors.brandColor,
                         decoration: TextDecoration.underline,
                       ),
                     ),
@@ -117,14 +116,14 @@ class _ResultCard extends StatelessWidget {
             style: pretendard(
               weight: 500,
               size: 12,
-              color: HexColor.fromHex('#999999'),
+              color: AppColors.textSecondary,
             ),
           ),
           const SizedBox(height: 14),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: HexColor.fromHex('#CFE6FF'),
+              color: AppColors.brandLight,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
@@ -185,7 +184,7 @@ class _ResultCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: hex('#F7F7F7'),
+        color: AppColors.backgroundField,
         borderRadius: BorderRadius.circular(4),
       ),
       child: Row(
@@ -195,7 +194,11 @@ class _ResultCard extends StatelessWidget {
           const SizedBox(width: 7),
           Text(
             periodText,
-            style: pretendard(weight: 500, size: 11, color: hex('#BEC1C8')),
+            style: pretendard(
+              weight: 500,
+              size: 11,
+              color: AppColors.secondaryTextColor,
+            ),
           ),
         ],
       ),
@@ -214,7 +217,7 @@ class _ResultCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: hex('#F7F7F7'),
+        color: AppColors.backgroundField,
         borderRadius: BorderRadius.circular(4),
       ),
       child: Row(
@@ -224,7 +227,11 @@ class _ResultCard extends StatelessWidget {
           const SizedBox(width: 7),
           Text(
             periodText,
-            style: pretendard(weight: 500, size: 11, color: hex('#BEC1C8')),
+            style: pretendard(
+              weight: 500,
+              size: 11,
+              color: AppColors.secondaryTextColor,
+            ),
           ),
         ],
       ),
@@ -299,7 +306,7 @@ class _InfoCard extends StatelessWidget {
         children: [
           Text('계산 정보', style: pretendard(weight: 700, size: 20)),
           const SizedBox(height: 7),
-          const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
+          const Divider(height: 1, thickness: 1, color: AppColors.divider),
           const SizedBox(height: 17),
           // 월별(월차) 섹션
           if (showMonthlySection) ...[
@@ -325,7 +332,7 @@ class _InfoCard extends StatelessWidget {
           // 하단 구분선: MONTHLY_AND_PRORATED인 경우만 총 합계 구분선 표시
           if (showTotalSeparator) ...[
             const SizedBox(height: 17),
-            const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
+            const Divider(height: 1, thickness: 1, color: AppColors.border),
             const SizedBox(height: 7),
             _buildSectionTitle('총 연차 합계: ${result.totalDays}일'),
           ],
@@ -348,7 +355,11 @@ class _InfoCard extends StatelessWidget {
   Widget _buildSectionDetail(String text) {
     return Text(
       text,
-      style: pretendard(weight: 400, size: 12, color: hex('#8E8E93')),
+      style: pretendard(
+        weight: 500,
+        size: 12,
+        color: AppColors.secondaryTextColor,
+      ),
     );
   }
 }
@@ -384,7 +395,7 @@ class _CalculationDetailSection extends StatelessWidget {
                     style: pretendard(
                       weight: 500,
                       size: 12,
-                      color: hex('#999999'),
+                      color: AppColors.textSecondary,
                     ),
                   ),
                 ],
@@ -406,7 +417,7 @@ class _CalculationDetailSection extends StatelessWidget {
                   height: 26,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: HexColor.fromHex('#F6F6F6'),
+                    color: AppColors.backgroundLight,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -414,7 +425,7 @@ class _CalculationDetailSection extends StatelessWidget {
                     style: pretendard(
                       weight: 700,
                       size: 12,
-                      color: HexColor.fromHex('#BEC1C8'),
+                      color: AppColors.secondaryTextColor,
                     ),
                     textAlign: TextAlign.center,
                   ),
