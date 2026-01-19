@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/app_colors.dart';
-import '../../core/app_text_styles.dart';
-import '../../core/ui_helpers.dart';
+import '../../core/design_system.dart';
 import '../../widgets/common/card_container.dart';
 import '../../widgets/common/custom_app_bar.dart';
 import '../../widgets/common/submit_button.dart';
@@ -30,7 +28,9 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
     super.initState();
     if (widget.calculationId != null) {
       Future.microtask(() {
-        ref.read(feedbackViewModelProvider.notifier).setCalculationId(widget.calculationId);
+        ref
+            .read(feedbackViewModelProvider.notifier)
+            .setCalculationId(widget.calculationId);
       });
     }
   }
@@ -127,7 +127,9 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                                   setState(() {
                                     _selectedTypeIndex = index;
                                   });
-                                  ref.read(feedbackViewModelProvider.notifier).setFeedbackType(index);
+                                  ref
+                                      .read(feedbackViewModelProvider.notifier)
+                                      .setFeedbackType(index);
                                 },
                                 behavior: HitTestBehavior.opaque,
                                 child: Center(
@@ -171,7 +173,9 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                     child: TextField(
                       controller: _contentController,
                       onChanged: (value) {
-                        ref.read(feedbackViewModelProvider.notifier).setContent(value);
+                        ref
+                            .read(feedbackViewModelProvider.notifier)
+                            .setContent(value);
                       },
                       maxLines: null,
                       expands: true,
@@ -214,7 +218,9 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                       child: TextField(
                         controller: _emailController,
                         onChanged: (value) {
-                          ref.read(feedbackViewModelProvider.notifier).setEmail(value);
+                          ref
+                              .read(feedbackViewModelProvider.notifier)
+                              .setEmail(value);
                         },
                         keyboardType: TextInputType.emailAddress,
                         textAlignVertical: TextAlignVertical.center,
@@ -242,7 +248,11 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                       final state = ref.watch(feedbackViewModelProvider);
                       return GestureDetector(
                         onTap: () {
-                          ref.read(feedbackViewModelProvider.notifier).setIncludeCalculationData(!state.includeCalculationData);
+                          ref
+                              .read(feedbackViewModelProvider.notifier)
+                              .setIncludeCalculationData(
+                                !state.includeCalculationData,
+                              );
                         },
                         child: Row(
                           children: [
@@ -258,7 +268,9 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                             Switch(
                               value: state.includeCalculationData,
                               onChanged: (value) {
-                                ref.read(feedbackViewModelProvider.notifier).setIncludeCalculationData(value);
+                                ref
+                                    .read(feedbackViewModelProvider.notifier)
+                                    .setIncludeCalculationData(value);
                               },
                               activeThumbColor: AppColors.brandColor,
                               activeTrackColor: AppColors.brandLight,
@@ -279,7 +291,11 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
             const SizedBox(height: 23),
             Text(
               '여러분의 소중한 의견에 정성스럽게 답변드리겠습니다',
-              style: pretendard(weight: 500, size: 12, color: AppColors.textSecondary),
+              style: pretendard(
+                weight: 500,
+                size: 12,
+                color: AppColors.textSecondary,
+              ),
             ),
             const SizedBox(height: 32),
             Consumer(
@@ -314,18 +330,10 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
     final state = ref.read(feedbackViewModelProvider);
 
     if (state.isSubmitted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            '소중한 의견 감사합니다.',
-            style: pretendard(weight: 500, size: 14),
-          ),
-          backgroundColor: AppColors.brandColor,
-        ),
-      );
+      UiHelpers.showToast(context, '소중한 의견 감사합니다.');
       Navigator.pop(context);
     } else if (state.error != null) {
-      UiHelpers.showSnackBar(context, state.error!);
+      UiHelpers.showError(context, state.error!);
     }
   }
 }
