@@ -25,8 +25,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final shouldShowBackButton = canPop || routeDepth >= 2;
 
     return AppBar(
-      backgroundColor: backgroundColor ?? hex('#FBFBFB'),
-      surfaceTintColor: backgroundColor ?? hex('#FBFBFB'),
+      backgroundColor: backgroundColor ?? AppColors.background,
+      surfaceTintColor: backgroundColor ?? AppColors.background,
       elevation: 0,
       scrolledUnderElevation: 0,
       leadingWidth: shouldShowBackButton ? 90 : null,

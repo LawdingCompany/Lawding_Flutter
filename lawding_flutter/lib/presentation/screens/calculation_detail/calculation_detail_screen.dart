@@ -59,7 +59,7 @@ class _CalculationDetailScreenState extends State<CalculationDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: hex('#FBFBFB'),
+      backgroundColor: AppColors.background,
       appBar: const CustomAppBar(title: '계산 기준 설명'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -91,9 +91,9 @@ class _CalculationDetailScreenState extends State<CalculationDetailScreen> {
     return Container(
       height: 34,
       decoration: BoxDecoration(
-        color: hex('#F5F5F5'),
+        color: AppColors.backgroundCard,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: hex('#E1E1E1'), width: 2),
+        border: Border.all(color: AppColors.border, width: 2),
       ),
       child: Stack(
         children: [
@@ -128,8 +128,8 @@ class _CalculationDetailScreenState extends State<CalculationDetailScreen> {
                         weight: 700,
                         size: 16,
                         color: _selectedSegmentIndex == 0
-                            ? hex('#111111')
-                            : hex('#BEC1C8'),
+                            ? AppColors.textPrimary
+                            : AppColors.secondaryTextColor,
                       ),
                       child: const Text('월차'),
                     ),
@@ -148,8 +148,8 @@ class _CalculationDetailScreenState extends State<CalculationDetailScreen> {
                         weight: 700,
                         size: 16,
                         color: _selectedSegmentIndex == 1
-                            ? hex('#111111')
-                            : hex('#BEC1C8'),
+                            ? AppColors.textPrimary
+                            : AppColors.secondaryTextColor,
                       ),
                       child: const Text('비례연차'),
                     ),
@@ -216,7 +216,7 @@ class _DetailCard extends StatelessWidget {
     final items = <Widget>[
       Text('상세 정보', style: pretendard(weight: 700, size: 20)),
       const SizedBox(height: 10),
-      const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
+      const Divider(height: 1, thickness: 1, color: AppColors.divider),
       const SizedBox(height: 12),
     ];
 
@@ -263,12 +263,12 @@ class _DetailCard extends StatelessWidget {
     }
 
     // 하단 구분선 및 합계
-    items.add(const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)));
+    items.add(const Divider(height: 1, thickness: 1, color: AppColors.divider));
     items.add(const SizedBox(height: 10));
     items.add(
       Text(
         '연차 합계:  ${_formatNumber(monthly.totalLeaveDays)}일',
-        style: pretendard(weight: 700, size: 13, color: hex('#111111')),
+        style: pretendard(weight: 700, size: 13, color: AppColors.textPrimary),
       ),
     );
 
@@ -291,7 +291,7 @@ class _DetailCard extends StatelessWidget {
         style: pretendard(weight: 700, size: 20, color: hex('111111')),
       ),
       const SizedBox(height: 10),
-      const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
+      const Divider(height: 1, thickness: 1, color: AppColors.divider),
       const SizedBox(height: 12),
     ];
 
@@ -355,12 +355,12 @@ class _DetailCard extends StatelessWidget {
     }
 
     // 하단 구분선 및 합계
-    items.add(const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)));
+    items.add(const Divider(height: 1, thickness: 1, color: AppColors.divider));
     items.add(const SizedBox(height: 10));
     items.add(
       Text(
         '월차 합계:  ${_formatNumber(monthly.totalLeaveDays)}일',
-        style: pretendard(weight: 700, size: 13, color: hex('#111111')),
+        style: pretendard(weight: 700, size: 13, color: AppColors.textPrimary),
       ),
     );
 
@@ -380,7 +380,7 @@ class _DetailCard extends StatelessWidget {
     final items = <Widget>[
       Text('상세 정보', style: pretendard(weight: 700, size: 15)),
       const SizedBox(height: 10),
-      const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
+      const Divider(height: 1, thickness: 1, color: AppColors.divider),
       const SizedBox(height: 12),
     ];
 
@@ -437,12 +437,12 @@ class _DetailCard extends StatelessWidget {
     }
 
     // 하단 구분선 및 합계
-    items.add(const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)));
+    items.add(const Divider(height: 1, thickness: 1, color: AppColors.divider));
     items.add(const SizedBox(height: 10));
     items.add(
       Text(
         '비례연차 합계:  ${_formatNumber(prorated.totalLeaveDays)}일',
-        style: pretendard(weight: 700, size: 13, color: hex('#111111')),
+        style: pretendard(weight: 700, size: 13, color: AppColors.textPrimary),
       ),
     );
 
@@ -462,7 +462,7 @@ class _DetailCard extends StatelessWidget {
     final items = <Widget>[
       Text('상세 정보', style: pretendard(weight: 700, size: 15)),
       const SizedBox(height: 10),
-      const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
+      const Divider(height: 1, thickness: 1, color: AppColors.divider),
       const SizedBox(height: 12),
     ];
 
@@ -536,12 +536,12 @@ class _DetailCard extends StatelessWidget {
     }
 
     // 하단 구분선 및 합계
-    items.add(const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)));
+    items.add(const Divider(height: 1, thickness: 1, color: AppColors.divider));
     items.add(const SizedBox(height: 10));
     items.add(
       Text(
         '비례연차 합계:  ${_formatNumber(prorated.totalLeaveDays)}일',
-        style: pretendard(weight: 700, size: 13, color: hex('#111111')),
+        style: pretendard(weight: 700, size: 13, color: AppColors.textPrimary),
       ),
     );
 
@@ -557,7 +557,7 @@ class _DetailCard extends StatelessWidget {
     final items = <Widget>[
       Text('상세 정보', style: pretendard(weight: 700, size: 15)),
       const SizedBox(height: 10),
-      const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
+      const Divider(height: 1, thickness: 1, color: AppColors.divider),
       const SizedBox(height: 12),
     ];
 
@@ -611,12 +611,12 @@ class _DetailCard extends StatelessWidget {
     }
 
     // 하단 구분선 및 합계
-    items.add(const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)));
+    items.add(const Divider(height: 1, thickness: 1, color: AppColors.divider));
     items.add(const SizedBox(height: 10));
     items.add(
       Text(
         '총 발생 연차:  ${_formatNumber(result.totalDays)}일',
-        style: pretendard(weight: 700, size: 12, color: hex('#111111')),
+        style: pretendard(weight: 700, size: 12, color: AppColors.textPrimary),
       ),
     );
 
@@ -637,7 +637,7 @@ class _DetailCard extends StatelessWidget {
   Widget _buildInfoRow(String text) {
     return Text(
       text,
-      style: pretendard(weight: 500, size: 12, color: hex('#999999')),
+      style: pretendard(weight: 500, size: 12, color: AppColors.textSecondary),
     );
   }
 }
@@ -692,7 +692,7 @@ class _RecordsCard extends StatelessWidget {
         children: [
           Text('월별 발생 현황', style: pretendard(weight: 700, size: 15)),
           const SizedBox(height: 10),
-          const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
+          const Divider(height: 1, thickness: 1, color: AppColors.divider),
           const SizedBox(height: 12),
           ...records.map((record) {
             return Padding(
@@ -704,7 +704,7 @@ class _RecordsCard extends StatelessWidget {
                     style: pretendard(
                       weight: 500,
                       size: 12,
-                      color: hex('#999999'),
+                      color: AppColors.textSecondary,
                     ),
                   ),
                   const Spacer(),
@@ -717,7 +717,7 @@ class _RecordsCard extends StatelessWidget {
             );
           }),
           const SizedBox(height: 2),
-          const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
+          const Divider(height: 1, thickness: 1, color: AppColors.divider),
           const SizedBox(height: 10),
           Text(
             '월별 합계: ${_formatNumber(totalDays)}일',
@@ -752,7 +752,7 @@ class _ExplanationCard extends StatelessWidget {
           if (hasExplanations) ...[
             Text('계산 기준 설명', style: pretendard(weight: 700, size: 15)),
             const SizedBox(height: 12),
-            const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
+            const Divider(height: 1, thickness: 1, color: AppColors.divider),
             const SizedBox(height: 12),
             ...result.explanations.map((text) {
               return Padding(
@@ -762,7 +762,7 @@ class _ExplanationCard extends StatelessWidget {
                   style: pretendard(
                     weight: 500,
                     size: 12,
-                    color: hex('#999999'),
+                    color: AppColors.textSecondary,
                   ),
                 ),
               );
@@ -773,7 +773,7 @@ class _ExplanationCard extends StatelessWidget {
           if (hasNonWorkingExplanations) ...[
             Text('특이사항 관련 설명', style: pretendard(weight: 700, size: 15)),
             const SizedBox(height: 12),
-            const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
+            const Divider(height: 1, thickness: 1, color: AppColors.divider),
             const SizedBox(height: 12),
             ...result.nonWorkingExplanations!.map((text) {
               return Padding(
@@ -783,7 +783,7 @@ class _ExplanationCard extends StatelessWidget {
                   style: pretendard(
                     weight: 500,
                     size: 12,
-                    color: hex('#999999'),
+                    color: AppColors.textSecondary,
                   ),
                 ),
               );

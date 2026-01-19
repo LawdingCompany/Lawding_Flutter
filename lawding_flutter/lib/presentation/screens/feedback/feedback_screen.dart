@@ -52,7 +52,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: hex('#FBFBFB'),
+      backgroundColor: AppColors.background,
       appBar: const CustomAppBar(title: '피드백'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -75,9 +75,9 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                   Container(
                     height: 34,
                     decoration: BoxDecoration(
-                      color: hex('#F5F5F5'),
+                      color: AppColors.backgroundCard,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: hex('#E1E1E1'), width: 2),
+                      border: Border.all(color: AppColors.border, width: 2),
                     ),
                     child: Stack(
                       children: [
@@ -108,7 +108,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                                   margin: const EdgeInsets.symmetric(
                                     vertical: 8,
                                   ),
-                                  color: hex('#E1E1E1'),
+                                  color: AppColors.border,
                                 );
                               }
                               return const Expanded(child: SizedBox.shrink());
@@ -138,7 +138,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                                       size: 12,
                                       color: isSelected
                                           ? AppColors.primaryTextColor
-                                          : hex('#DADADA'),
+                                          : AppColors.textHint,
                                     ),
                                     child: Text(_feedbackTypes[index]),
                                   ),
@@ -166,7 +166,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: hex('#E1E1E1')),
+                      border: Border.all(color: AppColors.border),
                     ),
                     child: TextField(
                       controller: _contentController,
@@ -186,7 +186,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                         hintStyle: pretendard(
                           weight: 500,
                           size: 15,
-                          color: hex('#999999'),
+                          color: AppColors.textSecondary,
                         ),
                         border: InputBorder.none,
                       ),
@@ -208,7 +208,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: hex('#E1E1E1')),
+                      border: Border.all(color: AppColors.border),
                     ),
                     child: Center(
                       child: TextField(
@@ -228,7 +228,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                           hintStyle: pretendard(
                             weight: 400,
                             size: 14,
-                            color: hex('#999999'),
+                            color: AppColors.textSecondary,
                           ),
                           isCollapsed: true,
                           border: InputBorder.none,
@@ -261,11 +261,11 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                                 ref.read(feedbackViewModelProvider.notifier).setIncludeCalculationData(value);
                               },
                               activeThumbColor: AppColors.brandColor,
-                              activeTrackColor: hex('#CFE6FF'),
-                              inactiveThumbColor: hex('#D9D9D9'),
-                              inactiveTrackColor: hex('#F6F6F6'),
+                              activeTrackColor: AppColors.brandLight,
+                              inactiveThumbColor: AppColors.switchInactive,
+                              inactiveTrackColor: AppColors.backgroundLight,
                               trackOutlineColor: WidgetStateProperty.all(
-                                hex('#E1E1E1'),
+                                AppColors.border,
                               ),
                             ),
                           ],
@@ -279,7 +279,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
             const SizedBox(height: 23),
             Text(
               '여러분의 소중한 의견에 정성스럽게 답변드리겠습니다',
-              style: pretendard(weight: 500, size: 12, color: hex('#999999')),
+              style: pretendard(weight: 500, size: 12, color: AppColors.textSecondary),
             ),
             const SizedBox(height: 32),
             Consumer(

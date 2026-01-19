@@ -58,7 +58,7 @@ class _CompanyHolidaysAddScreenState extends State<CompanyHolidaysAddScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: hex('#FBFBFB'),
+      backgroundColor: AppColors.background,
       appBar: const CustomAppBar(title: '선택사항'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),

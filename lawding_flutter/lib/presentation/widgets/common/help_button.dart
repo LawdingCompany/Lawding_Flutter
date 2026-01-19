@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/app_colors.dart';
+
 class HelpButton extends StatelessWidget {
   final VoidCallback? onTap;
 
@@ -13,6 +15,7 @@ class HelpButton extends StatelessWidget {
         'assets/icons/questionmark.png',
         width: 16,
         height: 16,
+        color: AppColors.secondaryTextColor,
       ),
     );
   }

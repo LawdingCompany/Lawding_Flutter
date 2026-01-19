@@ -88,8 +88,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       // 앱 버전 체크
       await _checkAppVersion();
 
-      // 3초 대기
-      await Future.delayed(const Duration(milliseconds: 3000));
+      // 1.5초 대기
+      await Future.delayed(const Duration(milliseconds: 1500));
 
       if (!mounted) return;
 

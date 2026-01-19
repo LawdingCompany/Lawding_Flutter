@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import 'api_request.dart';
 import 'http_methods.dart';
@@ -10,7 +11,7 @@ class DioClient {
   DioClient({
     required String baseUrl,
     String platform = 'ios',
-    bool isTestMode = true,
+    bool isTestMode = kDebugMode,
     Dio? dio,
   }) : _dio =
            dio ??
@@ -23,7 +24,7 @@ class DioClient {
                  'Content-Type': 'application/json',
                  'Accept': 'application/json',
                  'X-Platform': platform,
-                 if (isTestMode) 'X-Test': 'true',
+                 'X-Test': isTestMode.toString(),
                },
              ),
            ) {
@@ -32,7 +33,7 @@ class DioClient {
       _dio.options.baseUrl = baseUrl;
       _dio.options.headers.addAll({
         'X-Platform': platform,
-        if (isTestMode) 'X-Test': 'true',
+        'X-Test': isTestMode.toString(),
       });
     }
   }

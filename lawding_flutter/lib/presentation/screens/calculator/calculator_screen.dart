@@ -27,12 +27,12 @@ class CalculatorScreen extends ConsumerWidget {
     final state = ref.watch(calculatorViewModelProvider);
 
     return Scaffold(
-      backgroundColor: hex('#FBFBFB'),
+      backgroundColor: AppColors.background,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(56),
         child: AppBar(
-          backgroundColor: hex('#FBFBFB'),
-          surfaceTintColor: hex('#FBFBFB'),
+          backgroundColor: AppColors.background,
+          surfaceTintColor: AppColors.background,
           elevation: 0,
           scrolledUnderElevation: 0,
           automaticallyImplyLeading: false,

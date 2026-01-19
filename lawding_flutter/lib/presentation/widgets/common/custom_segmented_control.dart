@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../core/color_extensions.dart';
+
+import '../../core/app_colors.dart';
 
 class CustomSegmentedControl extends StatefulWidget {
   final List<String> items;
@@ -23,10 +24,10 @@ class _CustomSegmentedControlState extends State<CustomSegmentedControl> {
     return Container(
       height: 34,
       decoration: BoxDecoration(
-        color: HexColor.fromHex('#F6F6F6'),
+        color: AppColors.backgroundLight,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: HexColor.fromHex('#E1E1E1'),
+          color: AppColors.border,
           width: 2
         ),
       ),
@@ -65,8 +66,8 @@ class _CustomSegmentedControlState extends State<CustomSegmentedControl> {
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         color: isSelected
-                            ? HexColor.fromHex('#111111')
-                            : HexColor.fromHex('#DADADA'),
+                            ? AppColors.textPrimary
+                            : AppColors.textHint,
                       ),
                       child: Text(widget.items[index]),
                     ),
