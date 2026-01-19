@@ -6,7 +6,7 @@ import '../../../domain/entities/annual_leave.dart';
 import '../../../domain/entities/company_holiday.dart';
 import '../../../domain/entities/non_working_period.dart';
 import '../../../domain/repositories/annual_leave_repository.dart';
-import '../../core/date_formatter.dart';
+import '../../core/design_system.dart';
 import '../../providers/providers.dart';
 
 part 'calculator_view_model.g.dart';
@@ -20,7 +20,9 @@ class CalculatorViewModel extends _$CalculatorViewModel {
 
   void setCalculationType(int index) {
     state = state.copyWith(
-      calculationType: index == 0 ? CalculationType.standard : CalculationType.proRated,
+      calculationType: index == 0
+          ? CalculationType.standard
+          : CalculationType.proRated,
     );
   }
 
@@ -70,8 +72,12 @@ class CalculatorViewModel extends _$CalculatorViewModel {
     for (final existingPeriod in state.nonWorkingPeriods) {
       // 새로운 기간이 기존 기간과 겹치는지 확인
       // 겹치는 조건: (새 시작일 <= 기존 종료일) AND (새 종료일 >= 기존 시작일)
-      if (startDate.isBefore(existingPeriod.endDate.add(const Duration(days: 1))) &&
-          endDate.isAfter(existingPeriod.startDate.subtract(const Duration(days: 1)))) {
+      if (startDate.isBefore(
+            existingPeriod.endDate.add(const Duration(days: 1)),
+          ) &&
+          endDate.isAfter(
+            existingPeriod.startDate.subtract(const Duration(days: 1)),
+          )) {
         return '특이 사항 기간이 기존 기간(${existingPeriod.displayName})과 겹칩니다.';
       }
     }
@@ -130,9 +136,7 @@ class CalculatorViewModel extends _$CalculatorViewModel {
   }
 
   /// 회사휴일 날짜 검증
-  String? validateCompanyHoliday({
-    required DateTime date,
-  }) {
+  String? validateCompanyHoliday({required DateTime date}) {
     // 2. 회사휴일이 입사일과 계산 기준일 사이에 포함되는지 검증
     final hireDate = state.hireDate;
     final referenceDate = state.referenceDate;
@@ -160,10 +164,7 @@ class CalculatorViewModel extends _$CalculatorViewModel {
       }
 
       // 객체 생성 및 추가
-      final holiday = CompanyHoliday(
-        date: date,
-        displayName: displayName,
-      );
+      final holiday = CompanyHoliday(date: date, displayName: displayName);
 
       final updated = [...state.companyHolidays, holiday];
       state = state.copyWith(companyHolidays: updated);
@@ -175,10 +176,10 @@ class CalculatorViewModel extends _$CalculatorViewModel {
   }
 
   void removeCompanyHoliday(int index) {
-    final updated = List<CompanyHoliday>.from(state.companyHolidays)..removeAt(index);
+    final updated = List<CompanyHoliday>.from(state.companyHolidays)
+      ..removeAt(index);
     state = state.copyWith(companyHolidays: updated);
   }
-
 
   /// 계산하기 검증
   String? validateCalculation() {
@@ -218,17 +219,13 @@ class CalculatorViewModel extends _$CalculatorViewModel {
     final referenceDate = state.referenceDate;
 
     if (hireDate == null || referenceDate == null) {
-      state = state.copyWith(
-        error: '입사일과 계산 기준일을 모두 선택해주세요.',
-      );
+      state = state.copyWith(error: '입사일과 계산 기준일을 모두 선택해주세요.');
       return;
     }
 
     // 입사일 > 계산 기준일 검증
     if (hireDate.isAfter(referenceDate)) {
-      state = state.copyWith(
-        error: '입사일은 계산 기준일보다 이전이어야 합니다.',
-      );
+      state = state.copyWith(error: '입사일은 계산 기준일보다 이전이어야 합니다.');
       return;
     }
 
@@ -251,10 +248,7 @@ class CalculatorViewModel extends _$CalculatorViewModel {
 
     switch (result) {
       case Success(:final value):
-        state = state.copyWith(
-          isLoading: false,
-          result: value,
-        );
+        state = state.copyWith(isLoading: false, result: value);
       case Failure(:final error):
         final errorMessage = switch (error) {
           ServerError(:final message) => message,
@@ -264,10 +258,7 @@ class CalculatorViewModel extends _$CalculatorViewModel {
           _ => '알 수 없는 오류가 발생했습니다',
         };
 
-        state = state.copyWith(
-          isLoading: false,
-          error: errorMessage,
-        );
+        state = state.copyWith(isLoading: false, error: errorMessage);
     }
   }
 }
@@ -293,8 +284,8 @@ class CalculatorState {
     this.isLoading = false,
     this.result,
     this.error,
-  })  : nonWorkingPeriods = nonWorkingPeriods ?? [],
-        companyHolidays = companyHolidays ?? [];
+  }) : nonWorkingPeriods = nonWorkingPeriods ?? [],
+       companyHolidays = companyHolidays ?? [];
 
   CalculatorState copyWith({
     CalculationType? calculationType,

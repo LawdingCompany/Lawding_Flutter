@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../domain/entities/help_content.dart';
-import '../../core/app_colors.dart';
-import '../../core/app_text_styles.dart';
+import '../../core/design_system.dart';
 
 /// 순차적으로 하이라이트되는 텍스트 위젯
 class AnimatedHighlightText extends StatefulWidget {

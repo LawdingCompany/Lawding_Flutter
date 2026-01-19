@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../domain/entities/help_content.dart';
-import '../../core/app_colors.dart';
-import '../../core/app_text_styles.dart';
+import '../../core/design_system.dart';
 import '../../core/quick_help_library.dart';
 import 'animated_highlight_text.dart';
 import 'submit_button.dart';

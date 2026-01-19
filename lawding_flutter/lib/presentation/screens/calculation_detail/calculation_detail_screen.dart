@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../domain/entities/annual_leave.dart';
-import '../../core/app_colors.dart';
-import '../../core/app_text_styles.dart';
+import '../../core/design_system.dart';
 import '../../widgets/common/card_container.dart';
 import '../../widgets/common/custom_app_bar.dart';
 
@@ -41,18 +40,38 @@ class _CalculationDetailScreenState extends State<CalculationDetailScreen> {
     print('attendanceRate: ${widget.result.attendanceRate}');
     print('explanations: ${widget.result.explanations}');
     print('nonWorkingExplanations: ${widget.result.nonWorkingExplanations}');
-    print('accrualPeriod: ${widget.result.accrualPeriod?.startDate} ~ ${widget.result.accrualPeriod?.endDate}');
-    print('availablePeriod: ${widget.result.availablePeriod?.startDate} ~ ${widget.result.availablePeriod?.endDate}');
+    print(
+      'accrualPeriod: ${widget.result.accrualPeriod?.startDate} ~ ${widget.result.accrualPeriod?.endDate}',
+    );
+    print(
+      'availablePeriod: ${widget.result.availablePeriod?.startDate} ~ ${widget.result.availablePeriod?.endDate}',
+    );
     print('monthlyDetail: ${widget.result.monthlyDetail}');
-    print('  - monthlyDetail.attendanceRate: ${widget.result.monthlyDetail?.attendanceRate?.rate}');
-    print('  - monthlyDetail.prescribedWorkingRatio: ${widget.result.monthlyDetail?.prescribedWorkingRatio?.rate}');
-    print('  - monthlyDetail.serviceYears: ${widget.result.monthlyDetail?.serviceYears}');
-    print('  - monthlyDetail.records length: ${widget.result.monthlyDetail?.records?.length}');
+    print(
+      '  - monthlyDetail.attendanceRate: ${widget.result.monthlyDetail?.attendanceRate?.rate}',
+    );
+    print(
+      '  - monthlyDetail.prescribedWorkingRatio: ${widget.result.monthlyDetail?.prescribedWorkingRatio?.rate}',
+    );
+    print(
+      '  - monthlyDetail.serviceYears: ${widget.result.monthlyDetail?.serviceYears}',
+    );
+    print(
+      '  - monthlyDetail.records length: ${widget.result.monthlyDetail?.records?.length}',
+    );
     print('proratedDetail: ${widget.result.proratedDetail}');
-    print('  - proratedDetail.attendanceRate: ${widget.result.proratedDetail?.attendanceRate?.rate}');
-    print('  - proratedDetail.prescribedWorkingRatio: ${widget.result.proratedDetail?.prescribedWorkingRatio?.rate}');
-    print('  - proratedDetail.serviceYears: ${widget.result.proratedDetail?.serviceYears}');
-    print('  - proratedDetail.records length: ${widget.result.proratedDetail?.records?.length}');
+    print(
+      '  - proratedDetail.attendanceRate: ${widget.result.proratedDetail?.attendanceRate?.rate}',
+    );
+    print(
+      '  - proratedDetail.prescribedWorkingRatio: ${widget.result.proratedDetail?.prescribedWorkingRatio?.rate}',
+    );
+    print(
+      '  - proratedDetail.serviceYears: ${widget.result.proratedDetail?.serviceYears}',
+    );
+    print(
+      '  - proratedDetail.records length: ${widget.result.proratedDetail?.records?.length}',
+    );
     print('===============================================');
   }
 

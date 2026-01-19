@@ -1,8 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/app_colors.dart';
-import '../../core/app_text_styles.dart';
+import '../../core/design_system.dart';
 
 class TermsAgreementText extends StatelessWidget {
   final VoidCallback onTermsTap;
@@ -16,7 +15,11 @@ class TermsAgreementText extends StatelessWidget {
       child: RichText(
         textAlign: TextAlign.left,
         text: TextSpan(
-          style: pretendard(size: 12, weight: 500, color: AppColors.secondaryTextColor),
+          style: pretendard(
+            size: 12,
+            weight: 500,
+            color: AppColors.secondaryTextColor,
+          ),
           children: [
             const TextSpan(text: '계산하기 버튼을 통해 앱 '),
             TextSpan(

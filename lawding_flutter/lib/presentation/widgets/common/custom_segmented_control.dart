@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/app_colors.dart';
+import '../../core/design_system.dart';
 
 class CustomSegmentedControl extends StatefulWidget {
   final List<String> items;
@@ -26,10 +26,7 @@ class _CustomSegmentedControlState extends State<CustomSegmentedControl> {
       decoration: BoxDecoration(
         color: AppColors.backgroundLight,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: AppColors.border,
-          width: 2
-        ),
+        border: Border.all(color: AppColors.border, width: 2),
       ),
       child: Stack(
         children: [

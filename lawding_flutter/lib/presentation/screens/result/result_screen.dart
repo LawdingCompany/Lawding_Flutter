@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../domain/entities/annual_leave.dart';
-import '../../core/app_colors.dart';
-import '../../core/app_text_styles.dart';
+import '../../core/design_system.dart';
 import '../../widgets/common/card_container.dart';
 import '../../widgets/common/custom_app_bar.dart';
 import '../../widgets/common/submit_button.dart';
@@ -48,8 +47,8 @@ class ResultScreen extends StatelessWidget {
                     size: 12,
                     color: AppColors.secondaryTextColor,
                   ),
-                  children: [
-                    const TextSpan(text: '여러분의 소중한 의견을 '),
+                  children: const [
+                    TextSpan(text: '여러분의 소중한 의견을 '),
                     TextSpan(
                       text: '피드백',
                       style: TextStyle(
@@ -60,7 +59,7 @@ class ResultScreen extends StatelessWidget {
                         decoration: TextDecoration.underline,
                       ),
                     ),
-                    const TextSpan(text: '으로 통해 보내주세요'),
+                    TextSpan(text: '으로 통해 보내주세요'),
                   ],
                 ),
               ),
