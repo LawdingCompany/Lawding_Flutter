@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/app_colors.dart';
 import '../../core/app_text_styles.dart';
-import '../../core/color_extensions.dart';
 
 /// 결과 화면에서 사용되는 연차 유형 배지
 ///
@@ -34,7 +34,7 @@ class ResultBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // height: 16, // 필요하다면 유지, 하지만 패딩으로 조절하는게 더 유연합니다.
-      decoration: BoxDecoration(color: HexColor.fromHex('#CFE6FF')),
+      decoration: const BoxDecoration(color: AppColors.brandLight),
       padding: const EdgeInsets.symmetric(
         horizontal: 3,
         vertical: 2,
@@ -44,7 +44,7 @@ class ResultBadge extends StatelessWidget {
         style: pretendard(
           weight: 700,
           size: 11,
-          color: HexColor.fromHex('#0057B8'),
+          color: AppColors.brandColor,
         ),
         textAlign: TextAlign.center,
       ),

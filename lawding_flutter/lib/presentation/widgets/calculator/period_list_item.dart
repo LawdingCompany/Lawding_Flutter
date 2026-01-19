@@ -19,7 +19,7 @@ class PeriodListItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: hex('#FBFBFB'),
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -32,7 +32,7 @@ class PeriodListItem extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   duration,
-                  style: pretendard(size: 12, weight: 500, color: hex('#999999')),
+                  style: pretendard(size: 12, weight: 500, color: AppColors.textSecondary),
                 ),
               ],
             ),
@@ -43,7 +43,7 @@ class PeriodListItem extends StatelessWidget {
               padding: const EdgeInsets.all(4),
               child: Text(
                 '삭제',
-                style: pretendard(size: 12, weight: 700, color: hex('#DADADA')),
+                style: pretendard(size: 12, weight: 700, color: AppColors.textHint),
               ),
             ),
           ),

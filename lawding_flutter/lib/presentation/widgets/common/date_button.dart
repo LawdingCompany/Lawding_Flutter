@@ -41,7 +41,7 @@ class DateButton extends StatelessWidget {
         height: 44,
         padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
-          color: hex('#FBFBFB'),
+          color: AppColors.background,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
@@ -52,7 +52,9 @@ class DateButton extends StatelessWidget {
                 'assets/icons/calendar.png',
                 width: 16,
                 height: 16,
-                color: hasDate ? AppColors.primaryTextColor : hex('#CCCCCC'),
+                color: hasDate
+                    ? AppColors.primaryTextColor
+                    : AppColors.secondaryTextColor,
               ),
               const SizedBox(width: 7),
             ],
@@ -62,7 +64,9 @@ class DateButton extends StatelessWidget {
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
                 style: pretendard(weight: 500, size: 15).copyWith(
-                  color: hasDate ? AppColors.primaryTextColor : hex('#CCCCCC'),
+                  color: hasDate
+                      ? AppColors.primaryTextColor
+                      : AppColors.secondaryTextColor,
                 ),
               ),
             ),

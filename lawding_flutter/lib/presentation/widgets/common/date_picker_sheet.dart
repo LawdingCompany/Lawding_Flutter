@@ -53,7 +53,7 @@ class _DatePickerSheetState extends State<DatePickerSheet> {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: hex('#E0E0E0'),
+              color: AppColors.borderLight,
               borderRadius: BorderRadius.circular(2),
             ),
           ),

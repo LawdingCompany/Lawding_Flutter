@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/app_colors.dart';
+
 class CardContainer extends StatelessWidget {
   final Widget child;
 
@@ -17,7 +19,7 @@ class CardContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: const [
           BoxShadow(
-            color: Color(0x0A000000), // #000000 4% = 0x0A
+            color: AppColors.shadow,
             offset: Offset(0, 0),
             blurRadius: 10,
             spreadRadius: 2,

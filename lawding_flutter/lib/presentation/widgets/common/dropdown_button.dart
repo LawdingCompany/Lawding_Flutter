@@ -87,11 +87,11 @@ class _CustomDropdownButtonState<T> extends State<CustomDropdownButton<T>>
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8),
-                        boxShadow: const [
+                        boxShadow: [
                           BoxShadow(
-                            color: Color(0x1A000000),
+                            color: AppColors.shadow.withAlpha(26),
                             blurRadius: 10,
-                            offset: Offset(0, 4),
+                            offset: const Offset(0, 4),
                           ),
                         ],
                       ),
@@ -116,9 +116,9 @@ class _CustomDropdownButtonState<T> extends State<CustomDropdownButton<T>>
                               ),
                               decoration: BoxDecoration(
                                 border: index < widget.items.length - 1
-                                    ? Border(
+                                    ? const Border(
                                         bottom: BorderSide(
-                                          color: hex('#F0F0F0'),
+                                          color: AppColors.divider,
                                           width: 1,
                                         ),
                                       )
@@ -175,7 +175,7 @@ class _CustomDropdownButtonState<T> extends State<CustomDropdownButton<T>>
           height: 44,
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
-            color: hex('#FBFBFB'),
+            color: AppColors.background,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Row(
@@ -189,15 +189,15 @@ class _CustomDropdownButtonState<T> extends State<CustomDropdownButton<T>>
                   style: pretendard(weight: 500, size: 15).copyWith(
                     color: widget.selectedValue != null
                         ? AppColors.primaryTextColor
-                        : hex('#CCCCCC'),
+                        : AppColors.textDisabled,
                   ),
                 ),
               ),
               const SizedBox(width: 8),
-              Icon(
+              const Icon(
                 Icons.keyboard_arrow_down,
                 size: 20,
-                color: hex('#CCCCCC'),
+                color: AppColors.textDisabled,
               ),
             ],
           ),

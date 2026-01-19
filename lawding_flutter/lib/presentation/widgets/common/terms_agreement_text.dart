@@ -16,7 +16,7 @@ class TermsAgreementText extends StatelessWidget {
       child: RichText(
         textAlign: TextAlign.left,
         text: TextSpan(
-          style: pretendard(size: 12, weight: 500, color: hex('#BEC1C8')),
+          style: pretendard(size: 12, weight: 500, color: AppColors.secondaryTextColor),
           children: [
             const TextSpan(text: '계산하기 버튼을 통해 앱 '),
             TextSpan(

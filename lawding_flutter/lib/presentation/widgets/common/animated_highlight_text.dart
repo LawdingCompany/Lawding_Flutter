@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
+import '../../../domain/entities/help_content.dart';
 import '../../core/app_colors.dart';
 import '../../core/app_text_styles.dart';
-import '../../../domain/entities/help_content.dart';
 
 /// 순차적으로 하이라이트되는 텍스트 위젯
 class AnimatedHighlightText extends StatefulWidget {
@@ -50,11 +51,13 @@ class _AnimatedHighlightTextState extends State<AnimatedHighlightText> {
       for (final range in ranges) {
         if (!mounted) return;
         setState(() {
-          _activeHighlights.add(_HighlightRange(
-            start: range.start,
-            end: range.end,
-            colorIndex: highlight.colorIndex,
-          ));
+          _activeHighlights.add(
+            _HighlightRange(
+              start: range.start,
+              end: range.end,
+              colorIndex: highlight.colorIndex,
+            ),
+          );
           _currentHighlightIndex++;
         });
 
@@ -123,21 +126,15 @@ class _AnimatedHighlightTextState extends State<AnimatedHighlightText> {
 
   @override
   Widget build(BuildContext context) {
-    final baseStyle = widget.baseStyle ??
-        pretendard(
-          weight: 400,
-          size: 17,
-          color: AppColors.secondaryTextColor,
-        );
+    final baseStyle =
+        widget.baseStyle ??
+        pretendard(weight: 400, size: 17, color: AppColors.secondaryTextColor);
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 250),
       child: RichText(
         key: ValueKey(_currentHighlightIndex),
-        text: TextSpan(
-          style: baseStyle,
-          children: _buildTextSpans(baseStyle),
-        ),
+        text: TextSpan(style: baseStyle, children: _buildTextSpans(baseStyle)),
       ),
     );
   }
@@ -157,30 +154,33 @@ class _AnimatedHighlightTextState extends State<AnimatedHighlightText> {
     for (final highlight in sortedHighlights) {
       // 하이라이트 전 일반 텍스트
       if (currentPos < highlight.start) {
-        spans.add(TextSpan(
-          text: widget.text.substring(currentPos, highlight.start),
-          style: baseStyle,
-        ));
+        spans.add(
+          TextSpan(
+            text: widget.text.substring(currentPos, highlight.start),
+            style: baseStyle,
+          ),
+        );
       }
 
       // 하이라이트 텍스트
-      spans.add(TextSpan(
-        text: widget.text.substring(highlight.start, highlight.end),
-        style: baseStyle.copyWith(
-          backgroundColor: _getHighlightColor(highlight.colorIndex),
-          color: AppColors.primaryTextColor,
+      spans.add(
+        TextSpan(
+          text: widget.text.substring(highlight.start, highlight.end),
+          style: baseStyle.copyWith(
+            backgroundColor: _getHighlightColor(highlight.colorIndex),
+            color: AppColors.primaryTextColor,
+          ),
         ),
-      ));
+      );
 
       currentPos = highlight.end;
     }
 
     // 마지막 남은 텍스트
     if (currentPos < widget.text.length) {
-      spans.add(TextSpan(
-        text: widget.text.substring(currentPos),
-        style: baseStyle,
-      ));
+      spans.add(
+        TextSpan(text: widget.text.substring(currentPos), style: baseStyle),
+      );
     }
 
     return spans;
@@ -188,7 +188,7 @@ class _AnimatedHighlightTextState extends State<AnimatedHighlightText> {
 
   Color _getHighlightColor(int index) {
     const colors = [
-      Color(0xFFFFFA99), // yellow highlighter
+      AppColors.highlight, // yellow highlighter
     ];
     return colors[index % colors.length];
   }

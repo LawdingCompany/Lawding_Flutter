@@ -29,7 +29,7 @@ class QuickHelpSheet extends StatelessWidget {
     return showDialog(
       context: context,
       barrierDismissible: true,
-      barrierColor: const Color(0x80000000), // black with 0.5 alpha
+      barrierColor: AppColors.overlay,
       builder: (context) => QuickHelpSheet(kind: kind),
     );
   }
