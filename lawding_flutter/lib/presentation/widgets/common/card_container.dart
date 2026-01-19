@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../core/app_colors.dart';
+import '../../core/design_system.dart';
 
 class CardContainer extends StatelessWidget {
   final Widget child;
 
-  const CardContainer({
-    super.key,
-    required this.child,
-  });
+  const CardContainer({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {

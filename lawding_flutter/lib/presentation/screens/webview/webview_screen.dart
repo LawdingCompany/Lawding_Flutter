@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../core/app_colors.dart';
+import '../../core/design_system.dart';
 import '../../widgets/common/custom_app_bar.dart';
 
 class WebViewScreen extends StatefulWidget {
@@ -44,10 +44,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CustomAppBar(
-        title: widget.title,
-        backgroundColor: Colors.white,
-      ),
+      appBar: CustomAppBar(title: widget.title, backgroundColor: Colors.white),
       body: Stack(
         children: [
           WebViewWidget(controller: _controller),

@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../../infrastructure/services/app_version_service.dart';
-import '../core/app_colors.dart';
+import '../core/design_system.dart';
 
 /// 강제 업데이트 다이얼로그
 class ForceUpdateDialog extends StatelessWidget {
   final String updateMessage;
 
-  const ForceUpdateDialog({
-    super.key,
-    required this.updateMessage,
-  });
+  const ForceUpdateDialog({super.key, required this.updateMessage});
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +48,7 @@ class ForceUpdateDialog extends StatelessWidget {
     return showDialog(
       context: context,
       barrierDismissible: false, // 바깥 영역 터치 불가
-      builder: (context) => ForceUpdateDialog(
-        updateMessage: updateMessage,
-      ),
+      builder: (context) => ForceUpdateDialog(updateMessage: updateMessage),
     );
   }
 }

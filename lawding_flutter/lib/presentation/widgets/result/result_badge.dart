@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/app_colors.dart';
-import '../../core/app_text_styles.dart';
+import '../../core/design_system.dart';
 
 /// 결과 화면에서 사용되는 연차 유형 배지
 ///
@@ -41,11 +40,7 @@ class ResultBadge extends StatelessWidget {
       ), // 좌우 3, 상하 2 여백
       child: Text(
         _badgeText,
-        style: pretendard(
-          weight: 700,
-          size: 11,
-          color: AppColors.brandColor,
-        ),
+        style: pretendard(weight: 700, size: 11, color: AppColors.brandColor),
         textAlign: TextAlign.center,
       ),
     );

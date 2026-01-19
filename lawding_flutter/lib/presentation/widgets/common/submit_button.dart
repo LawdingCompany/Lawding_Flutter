@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../core/app_colors.dart';
-import '../../core/app_text_styles.dart';
+
+import '../../core/design_system.dart';
 
 class SubmitButton extends StatelessWidget {
   final String text;
@@ -24,9 +24,7 @@ class SubmitButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.brandColor,
           disabledBackgroundColor: AppColors.textDisabled,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           elevation: 0,
         ),
         child: isLoading
@@ -40,9 +38,10 @@ class SubmitButton extends StatelessWidget {
               )
             : Text(
                 text,
-                style: pretendard(weight: 700, size: 15).copyWith(
-                  color: Colors.white,
-                ),
+                style: pretendard(
+                  weight: 700,
+                  size: 15,
+                ).copyWith(color: Colors.white),
               ),
       ),
     );

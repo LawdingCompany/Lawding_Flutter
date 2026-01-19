@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../core/app_colors.dart';
-import '../../core/app_text_styles.dart';
+
+import '../../core/design_system.dart';
 
 class PeriodListItem extends StatelessWidget {
   final String title;
@@ -32,7 +32,11 @@ class PeriodListItem extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   duration,
-                  style: pretendard(size: 12, weight: 500, color: AppColors.textSecondary),
+                  style: pretendard(
+                    size: 12,
+                    weight: 500,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
               ],
             ),
@@ -43,7 +47,11 @@ class PeriodListItem extends StatelessWidget {
               padding: const EdgeInsets.all(4),
               child: Text(
                 '삭제',
-                style: pretendard(size: 12, weight: 700, color: AppColors.textHint),
+                style: pretendard(
+                  size: 12,
+                  weight: 700,
+                  color: AppColors.textHint,
+                ),
               ),
             ),
           ),

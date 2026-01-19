@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../domain/entities/help_content.dart';
 import '../../../domain/entities/non_working_type.dart';
-import '../../core/app_colors.dart';
-import '../../core/app_text_styles.dart';
-import '../../core/date_formatter.dart';
+import '../../core/design_system.dart';
 import '../../widgets/common/badge_label.dart';
 import '../../widgets/common/card_container.dart';
 import '../../widgets/common/custom_app_bar.dart';

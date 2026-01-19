@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain/entities/help_content.dart';
-import '../../core/app_colors.dart';
-import '../../core/app_text_styles.dart';
-import '../../core/date_formatter.dart';
-import '../../core/ui_helpers.dart';
+import '../../core/design_system.dart';
 import '../../widgets/calculator/calculation_type_card.dart';
 import '../../widgets/calculator/period_list_card.dart';
 import '../../widgets/common/date_picker_sheet.dart';

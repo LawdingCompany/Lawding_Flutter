@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/app_text_styles.dart';
+import '../../core/design_system.dart';
 import '../common/add_button.dart';
 import '../common/badge_label.dart';
 import '../common/card_container.dart';
