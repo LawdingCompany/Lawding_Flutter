@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDh_5N6BvrD8ufhqr9Ifj44TgZ6WbMPvvE',
-    appId: '1:124104340926:android:aa2b1cedc76869607f35ef',
+    appId: '1:124104340926:android:22434e54c5c351fb7f35ef',
     messagingSenderId: '124104340926',
     projectId: 'lawding-flutter',
     storageBucket: 'lawding-flutter.firebasestorage.app',
@@ -59,10 +59,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDl0i-hlSY9yroZlHyHuxt-gj2szMKYm_g',
-    appId: '1:124104340926:ios:bb8b9301268d0dc57f35ef',
+    appId: '1:124104340926:ios:a5f5e03e14024cf07f35ef',
     messagingSenderId: '124104340926',
     projectId: 'lawding-flutter',
     storageBucket: 'lawding-flutter.firebasestorage.app',
-    iosBundleId: 'com.example.lawdingFlutter',
+    iosBundleId: 'GGimiOwner.AnnualLeaveCalculator',
   );
 }
