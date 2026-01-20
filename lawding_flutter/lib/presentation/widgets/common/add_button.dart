@@ -12,24 +12,21 @@ class AddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      child: DecoratedBox(
         decoration: BoxDecoration(
           color: AppColors.backgroundLight,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              text,
-              style: pretendard(
-                weight: 700,
-                size: 12,
-              ).copyWith(color: AppColors.secondaryTextColor),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 8),
+          child: Text(
+            text,
+            style: pretendard(
+              weight: 700,
+              size: 12,
+              color: AppColors.secondaryTextColor,
             ),
-            const SizedBox(width: 4),
-          ],
+          ),
         ),
       ),
     );

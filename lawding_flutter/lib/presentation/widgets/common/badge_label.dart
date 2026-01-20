@@ -10,21 +10,23 @@ class BadgeLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: isRequired ? AppColors.brandLight : AppColors.backgroundLight,
         borderRadius: BorderRadius.circular(4),
       ),
-      child: Text(
-        text,
-        style: isRequired
-            ? pretendard(weight: 700, size: 9, color: AppColors.brandColor)
-            : pretendard(
-                weight: 500,
-                size: 9,
-                color: AppColors.secondaryTextColor,
-              ),
+      child: Padding(
+        padding: const EdgeInsets.all(3),
+        child: Text(
+          text,
+          style: pretendard(
+            weight: isRequired ? 700 : 500,
+            size: 9,
+            color: isRequired
+                ? AppColors.brandColor
+                : AppColors.secondaryTextColor,
+          ),
+        ),
       ),
     );
   }
