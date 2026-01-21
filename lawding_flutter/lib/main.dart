@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Lawding',
+      themeMode: ThemeMode.light,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: AppColors.primaryTextColor,
@@ -46,9 +47,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.brandColor,
         fontFamily: 'Pretendard',
       ),
-      navigatorObservers: [
-        AnalyticsService().getAnalyticsObserver(),
-      ],
+      navigatorObservers: [AnalyticsService().getAnalyticsObserver()],
       home: const SplashScreen(),
     );
   }
