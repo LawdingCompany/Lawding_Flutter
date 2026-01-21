@@ -34,3 +34,8 @@
 -keepclassmembers class kotlin.Metadata {
     public <methods>;
 }
+
+## Play Core (Deferred Components)
+-dontwarn com.google.android.play.core.splitcompat.SplitCompatApplication
+-dontwarn com.google.android.play.core.splitinstall.**
+-dontwarn com.google.android.play.core.tasks.**
