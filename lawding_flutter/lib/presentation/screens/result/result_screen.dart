@@ -402,7 +402,6 @@ class _CalculationDetailSection extends StatelessWidget {
               const Spacer(),
               GestureDetector(
                 onTap: () {
-                  print(result);
                   Navigator.push(
                     context,
                     MaterialPageRoute(

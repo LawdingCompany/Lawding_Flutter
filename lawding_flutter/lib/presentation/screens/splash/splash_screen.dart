@@ -36,10 +36,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       final currentVersion = await _appVersionService.getCurrentVersion();
       final platform = _appVersionService.getPlatform();
 
-      print('🔍 [Version Check] Request:');
-      print('   Platform: $platform');
-      print('   Current Version: $currentVersion');
-
       final result = await versionRepository.checkVersion(
         platform: platform,
         currentVersion: currentVersion,
@@ -47,15 +43,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
       switch (result) {
         case Success(:final value):
-          print('✅ [Version Check] Response Success:');
-          print('   Platform: ${value.platform}');
-          print('   Current Version: ${value.currentVersion}');
-          print('   Minimum Version: ${value.minimumVersion}');
-          print('   Force Update: ${value.forceUpdate}');
-          print('   Update Message: ${value.updateMessage}');
-          print('   Download URL: ${value.downloadUrl}');
-
-          // 강제 업데이트 필요 시 다이얼로그 표시
           if (value.forceUpdate && mounted) {
             await ForceUpdateDialog.show(
               context,
@@ -64,15 +51,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           }
           break;
         case Failure(:final error):
-          print('❌ [Version Check] Response Failure:');
-          print('   Error: $error');
-          // 네트워크 오류 등으로 버전 체크 실패 시
-          // 앱은 정상적으로 진행 (다음 번에 다시 체크)
+          await _crashlytics.log('Version check failed: $error');
           break;
       }
     } catch (e) {
-      print('💥 [Version Check] Exception: $e');
-      // 예외 발생 시에도 앱은 정상적으로 진행
       await _crashlytics.log('Version check failed: $e');
     }
   }
@@ -134,10 +116,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/icons/LaunchScreen.png'),
-          fit: BoxFit.cover,
+      color: Colors.white,
+      child: Center(
+        child: Image.asset(
+          'assets/icons/LaunchScreen.png',
+          fit: BoxFit.contain,
         ),
       ),
     );

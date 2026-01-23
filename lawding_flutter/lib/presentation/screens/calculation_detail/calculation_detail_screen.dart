@@ -23,56 +23,6 @@ class _CalculationDetailScreenState extends State<CalculationDetailScreen> {
   @override
   void initState() {
     super.initState();
-    // 받은 result의 모든 필드 출력
-    print('=== CalculationDetailScreen received result ===');
-    print('calculationId: ${widget.result.calculationId}');
-    print('calculationType: ${widget.result.calculationType}');
-    print('fiscalYear: ${widget.result.fiscalYear}');
-    print('hireDate: ${widget.result.hireDate}');
-    print('referenceDate: ${widget.result.referenceDate}');
-    print('nonWorkingPeriods: ${widget.result.nonWorkingPeriods}');
-    print('companyHolidays: ${widget.result.companyHolidays}');
-    print('leaveType: ${widget.result.leaveType}');
-    print('serviceYears: ${widget.result.serviceYears}');
-    print('totalDays: ${widget.result.totalDays}');
-    print('baseAnnualLeave: ${widget.result.baseAnnualLeave}');
-    print('additionalLeave: ${widget.result.additionalLeave}');
-    print('attendanceRate: ${widget.result.attendanceRate}');
-    print('explanations: ${widget.result.explanations}');
-    print('nonWorkingExplanations: ${widget.result.nonWorkingExplanations}');
-    print(
-      'accrualPeriod: ${widget.result.accrualPeriod?.startDate} ~ ${widget.result.accrualPeriod?.endDate}',
-    );
-    print(
-      'availablePeriod: ${widget.result.availablePeriod?.startDate} ~ ${widget.result.availablePeriod?.endDate}',
-    );
-    print('monthlyDetail: ${widget.result.monthlyDetail}');
-    print(
-      '  - monthlyDetail.attendanceRate: ${widget.result.monthlyDetail?.attendanceRate?.rate}',
-    );
-    print(
-      '  - monthlyDetail.prescribedWorkingRatio: ${widget.result.monthlyDetail?.prescribedWorkingRatio?.rate}',
-    );
-    print(
-      '  - monthlyDetail.serviceYears: ${widget.result.monthlyDetail?.serviceYears}',
-    );
-    print(
-      '  - monthlyDetail.records length: ${widget.result.monthlyDetail?.records?.length}',
-    );
-    print('proratedDetail: ${widget.result.proratedDetail}');
-    print(
-      '  - proratedDetail.attendanceRate: ${widget.result.proratedDetail?.attendanceRate?.rate}',
-    );
-    print(
-      '  - proratedDetail.prescribedWorkingRatio: ${widget.result.proratedDetail?.prescribedWorkingRatio?.rate}',
-    );
-    print(
-      '  - proratedDetail.serviceYears: ${widget.result.proratedDetail?.serviceYears}',
-    );
-    print(
-      '  - proratedDetail.records length: ${widget.result.proratedDetail?.records?.length}',
-    );
-    print('===============================================');
   }
 
   @override
